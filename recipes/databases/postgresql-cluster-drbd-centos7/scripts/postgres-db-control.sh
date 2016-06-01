@@ -2,6 +2,12 @@
 #
 # Postgres-DB control script
 #
+#
+# By Reinaldo Martínez P.
+# Caracas, Venezuela.
+# TigerLinux AT gmail DOT com
+#
+#
 
 postgressvcdir="/postgres"
 postgresuser="postgres"

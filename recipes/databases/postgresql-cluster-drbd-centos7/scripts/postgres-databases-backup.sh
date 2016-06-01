@@ -2,6 +2,10 @@
 #
 # Postgres-DB backup script
 #
+# By Reinaldo Martínez P.
+# Caracas, Venezuela.
+# TigerLinux AT gmail DOT com
+#
 
 postgresuser="postgres"
 postgresgroup="postgres"

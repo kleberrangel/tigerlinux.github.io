@@ -1,5 +1,11 @@
 #!/bin/bash
 #
+# Cluster PostgreSQL Service Script
+#
+# By Reinaldo Martínez P.
+# Caracas, Venezuela.
+# TigerLinux AT gmail DOT com
+#
 
 mystatus=`/usr/local/bin/postgres-db-control.sh status 2>/dev/null|grep -ci "server is running"`
 

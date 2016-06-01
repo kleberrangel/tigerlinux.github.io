@@ -1,4 +1,4 @@
-### A POSTGRESQL 9.5 CLUSTER WITH DRBD, PACEMAKER AND COROSYNC ON CENTOS 7.
+# A POSTGRESQL 9.5 CLUSTER WITH DRBD, PACEMAKER AND COROSYNC ON CENTOS 7.
 
 By Reinaldo Martínez P.
 Caracas, Venezuela:
@@ -30,11 +30,10 @@ Hostnames/IP's of our servers:
 The VIP for our service: **172.16.31.210**
 
 
+## How we constructed the whole thing ?:
 
-How we constructed the whole thing ?:
 
-
-# BASIC SERVER SETUP:
+### BASIC SERVER SETUP:
 
 Let's do some basic server setup first, focused to kernel, limits, ssh trusts, etc. You must do this on both servers.
 
@@ -152,7 +151,7 @@ yum clean all && yum -y update && reboot
 ```
 
 
-# REPOSITORIES AND PACKAGES INSTALLATION.
+### REPOSITORIES AND PACKAGES INSTALLATION.
 
 Now, we need to include proper repositories both for PostgreSQL software and DRBD. For DRBD we need to include "ELREPO". Those procedures most be performed on both servers:
 
@@ -192,7 +191,7 @@ systemctl disable postgresql-9.5
 **NOTE: Again, PLEASE, ensure the proper order here. It's very important that the postgresql user and group are created before the postgresql packages installation. Later you'll come to see why !.**
 
 
-# DRBD SETUP.
+### DRBD SETUP.
 
 Now, we proceed to setup our DRBD resources on both servers. For our setup, we have an extra hard disk (virtual) in both servers. The extra hard disk device is "/dev/vdb", but this can change in your setup so adjust the following procedures if you have a different disk consiguration.
 
@@ -288,7 +287,7 @@ while true; do clear; cat /proc/drbd; sleep 10;done
 This command will put a "loop" showing the status of the DRBD. It will be fully sinchronized when it reaches 100% percent. Once this happens, we can continue our setup.
 
 
-# POSTGRESQL SPACE PREPARATION
+### POSTGRESQL SPACE PREPARATION
 
 Now that our DRBD is fully in sync, we proceed to create the postgresql filesystems and adjust proper permissions and directories.
 
@@ -382,7 +381,7 @@ systemctl status drbd
 ```
 
 
-# EXTRA SETUP FOR OPENSTACK ONLY
+### EXTRA SETUP FOR OPENSTACK ONLY
 
 If you are not using OpenStack, omit this section. Otherwise we need to ensure to allow the VIP to be present in the VM's ports. This is acomplished using "allowed address pairs" Neutron feature. If you fail to do this in OpenStack, your VIP will be unable to be contacted.
 
@@ -416,7 +415,7 @@ neutron port-update 824f097b-3eeb-44d2-90df-1ac18ed6c039 --allowed_address_pairs
 **NOTE: Most cloud's apply very strong anti-spoofing measures that won't allow a "Floating VIP" to exist unless you take the proper steps. Please document yourself very well if you plan to use this postgresql-drbd-cluster recipe in a cloud like AWS.**
 
 
-# CLUSTER SOFTWARE INSTALLATION
+### CLUSTER SOFTWARE INSTALLATION
 
 In both servers, we proceed to install the cluster packages:
 
@@ -697,7 +696,7 @@ All resources will go back to 172.16.31.29.
 This part conclude the cluster configuration, so we now will proceed to configure postgresql.
 
 
-# POSTGRESQL SETUP
+### POSTGRESQL SETUP
 
 At this point, we should have all resources (VIP, DRBD and /postgres mount) fully working in the primary node (vm-172-16-31-29 or 172.16.31.29)
 
@@ -1236,7 +1235,7 @@ You can add other database services the same way as "database01" and "database02
 At this point, your cluster is fully working, and in the case of an active node failure, it will just start all resources (and database instances) in the surviving server, and fail-back to the primary once it's recovered.
 
 
-# CLEANING AND BACKUP TASKS.
+### CLEANING AND BACKUP TASKS.
 
 This would not be a complete solution if we don't include taks for backups and cleaning.
 
@@ -1465,7 +1464,7 @@ The crontab will run the backup script every day at 01:10am. Adjust the frecuenc
 At this point you should have everything you need in order to put his recipe into a production environment. Enjoy !!!!
 
 
-# EXTRA NOTES:
+## EXTRA NOTES:
 
 Use the following commands in order to see the cluster status and it's resources:
 
