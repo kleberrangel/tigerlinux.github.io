@@ -1,7 +1,9 @@
 # A POSTGRESQL 9.5 CLUSTER WITH DRBD, PACEMAKER AND COROSYNC ON CENTOS 7.
 
 **By Reinaldo Martínez P.**
+
 **Caracas, Venezuela:**
+
 **TigerLinux AT gmail DOT com**
 
 ## Introduction
