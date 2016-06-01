@@ -1,8 +1,11 @@
 # A MARIADB 10.1 ACTIVE/ACTIVE MULTIMASTER SYNCHRONOUS CLUSTER FOR THE CLOUD.
 
 **By Reinaldo Martínez P.**
+
 **Caracas, Venezuela:**
+
 **TigerLinux AT gmail DOT com**
+
 
 ## Introduction
 
@@ -36,3 +39,5 @@ This is not only a active/active solution. This is a fully load-balanced solutio
 ## What files you'll find here ?:
 
 * RECIPE-Cluster-MariaDB-10.1-C7.md: Our recipe, in markdown format.
+* scripts: Directory with scripts referenced by our recipe
+
