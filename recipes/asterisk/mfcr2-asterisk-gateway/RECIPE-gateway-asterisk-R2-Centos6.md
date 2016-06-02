@@ -144,7 +144,7 @@ Un-compress all files:
 
 ```
 tar -xzvf dahdi-linux-complete-current.tar.gz -C /usr/local/src/
-tar -xzvf libpri-1.4-current.tar.gz -C /usr/local/src/
+tar -xzvf libpri-current.tar.gz -C /usr/local/src/
 tar -xzvf asterisk-11-current.tar.gz -C /usr/local/src/
 tar -xzvf openr2-1.3.3.tar.gz -C /usr/local/src/
 ```
@@ -219,7 +219,7 @@ rm -rf *.tar.gz
 Then we proceed to copy the sample config files:
 
 ```
-cp /usr/local/src/asterisk-11.19.0/configs/* /etc/asterisk/
+cp /usr/local/src/asterisk-11*/configs/* /etc/asterisk/
 cd /etc/asterisk/
 for i in `ls`;do echo $i;mv $i `echo $i|sed 's/.sample//'`;done
 ```
