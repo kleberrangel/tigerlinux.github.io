@@ -3,7 +3,7 @@
 # Postgres-DB control script
 #
 #
-# By Reinaldo Martínez P.
+# By Reinaldo Martinez P.
 # Caracas, Venezuela.
 # TigerLinux AT gmail DOT com
 #

@@ -41,4 +41,5 @@ About the software: You'll need a machine with the following software requerimen
 ## What files you'll find here ?:
 
 * RECIPE-zabbix-ha-cluster-C7.md: Our recipe, in markdown format.
+* scripts: Scripts referenced/created for this recipe.
 

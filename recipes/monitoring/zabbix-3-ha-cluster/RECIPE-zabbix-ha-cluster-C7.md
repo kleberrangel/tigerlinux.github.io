@@ -605,7 +605,7 @@ In the primary/active node (172.16.10.57) start-up the services:
 In both Zabbix nodes, create the following file (it's a simple html redirect):
 
 ```
-vi /var/www/html/index.php
+vi /var/www/html/index.html
 ```
 
 Containing:
@@ -686,7 +686,9 @@ scp /etc/zabbix/web/zabbix.conf.php vm-172-16-10-58:/etc/zabbix/web/
 If everything goes OK, you'll be able to enter to your zabbix installation with the following default user/pass:
 
 > User: Admin
+> 
 > Pass: zabbix
+> 
 
 
 ### Agent Configuration (Cluster Nodes):
@@ -714,8 +716,6 @@ systemctl stop zabbix-agent
 systemctl start zabbix-agent
 systemctl status zabbix-agent
 ```
-
-NOTA IMPORTANTE: Para todo agente ya sea en linux o windows, en los items "Server" y "ServerActive" se deben colocar UNICAMENTE las dos IP's reales (RIP's) de ambos nodos Zabbix. NUNCA SE DEBE COLOCAR la VIP. Siempre se deben colocar ambas IP's reales pertenecientes a ambos nodos separadas por coma.
 
 **VERY IMPORTANT NOTE: For every agent you configure, no matter if it's linux, unix or windows, in the config items "Server" and "ServerActive", you must put BOTH Real IP (RIP's) of both zabbix nodes. NEVER EVER put the VIP !. Both IP's always comma-separated as in the agent config previouslly performed on both zabbix nodes**
 
