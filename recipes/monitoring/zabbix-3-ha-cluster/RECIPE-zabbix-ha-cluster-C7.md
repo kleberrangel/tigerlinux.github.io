@@ -650,17 +650,26 @@ With a browser of your preference (firefox, chrome, ms-ie, etc.) enter to the HT
 After a brief wizard, near the third slide, you will be prompted to configure the database access. Use the following data:
 
 > Database Type: mysql
+> 
 > Database Host: 172.16.10.221
+> 
 > Database Port: 3306
+> 
 > Database Name: zabbixdb
+> 
 > User: zabbixuser
+> 
 > Password: P@ssw0rd
+> 
 
 In the following slide, put this:
 
 > Host: localhost
+> 
 > Port: 10051
+> 
 > Name:
+> 
 
 **NOTE: Leave the name in blank as it is**
 
