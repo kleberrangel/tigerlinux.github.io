@@ -9,7 +9,7 @@
 
 ## What we want to acomplish ?:
 
-Create a highly available Zabbix 3 cluster with highly available, horizontally scalabla database backend.
+Create a highly available Zabbix 3 cluster with highly available, horizontally scalable database backend.
 
 
 ## Where are we going to install it ?:
@@ -21,8 +21,8 @@ Our pre-created database cluster VIP is: 172.16.10.221, port 3306 (OpenStack LBa
 
 Our two Zabbix 3 Servers:
 
-Node 1: 172.16.10.57 (vm-172-16-10-57.mydomain.dom)
-Node 2: 172.16.10.58 (vm-172-16-10-58.mydomain.dom)
+* Node 1: 172.16.10.57 (vm-172-16-10-57.mydomain.dom)
+* Node 2: 172.16.10.58 (vm-172-16-10-58.mydomain.dom)
 
 Our Zabbix 3 Cluster VIP (with address-pairs defined on openstack): 172.16.10.222
 
@@ -80,7 +80,7 @@ StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
 ```
 
-And change it's permission:
+Change it's permission:
 
 ```
 chmod 600 /root/.ssh/config
@@ -110,9 +110,11 @@ Include in your `/etc/hosts` file the names (short and full dns names) with IP's
 
 Now, we need to include on both Zabbix Nodes the proper dependencies/packages:
 
+```
 yum install zlib-devel mysql-devel glibc-devel curl-devel gcc automake mysql \
 libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel net-snmp \
 net-snmp-utils php-mysql php-gd php-bcmath php-mbstring php-xml nmap php
+```
 
 Proceed to modify the `/etc/php.ini` file on both nodes in order to change some important settings required by zabbix:
 
@@ -181,10 +183,12 @@ ldconfig -v
 
 In any of the MariaDB Cluster nodes, proceed to create the database and it's user:
 
+```
 MariaDB [(none)]> create database zabbixdb default character set utf8;
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON zabbixdb.* TO 'zabbixuser'@'%' IDENTIFIED BY 'P@ssw0rd' WITH GRANT OPTION;
 MariaDB [(none)]> FLUSH PRIVILEGES;
 MariaDB [(none)]> exit;
+```
 
 This will create our database "zabbixdb", with it's user "zabbixuser" and password "P@ssw0rd". Please use a more cryptic password on real-life production environments.
 
@@ -264,7 +268,7 @@ With this information, we proceed to create the VIP port:
 
 ```
 neutron port-create --fixed-ip ip_address=172.16.10.222 --security-group zabbix3-access net-vlan-10
-``} 
+```
 
 We then proceed to obtain the port ID's containing the IP's 172.16.10.57 and 58 (our Zabbix 3 nodes):
 
