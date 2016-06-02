@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Zabbix (http://www.zabbix.com) is one of the best OpenSource monitoring solutions for corporative environments, and is also very easy to implement in a private cloud. In my last 7 years I have been implementing this software after being working with other similar solutions (cacti, plain-old mrtg, etc.) and more recently a workmate and me migrated from a single-central (virtual) zabbix 2.2 server to a more robust, higly available, zabbix 3 solution. This solution is what I'm going to document in this recipe.
+Zabbix (http://www.zabbix.com) is one of the best OpenSource monitoring solutions for corporative environments, and is also very easy to implement in a private cloud. In my last 7 years I have been implementing this software after being working with other similar solutions (cacti, plain-old mrtg, etc.) for the pervious 10 years and more recently a workmate and me migrated from a single-central (virtual) zabbix 2.2 server to a more robust, higly available, zabbix 3 solution. This solution is what I'm going to document in this recipe.
 
 This solution is based on one of my former recipes in this site (MariaDB 10.1 cluster, with 3 nodes, are deployed on our OpenStack-based private cloud), and with an active/pasive Zabbix 3 cluster using pacemaker/corosync on Centos 7 (very similar to my former PostgreSQL H.A. DRBD recipe, also on this site).
 
@@ -40,6 +40,6 @@ About the software: You'll need a machine with the following software requerimen
 
 ## What files you'll find here ?:
 
-* RECIPE-zabbix-ha-cluster-C7.md: Our recipe, in markdown format.
-* scripts: Scripts referenced/created for this recipe.
+* [RECIPE-zabbix-ha-cluster-C7.md: Our recipe, in markdown format.](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/monitoring/zabbix-3-ha-cluster/RECIPE-zabbix-ha-cluster-C7.md "Zabbix 3 H.A. Recipe")
+* [scripts: Scripts referenced/created for this recipe.](https://github.com/tigerlinux/tigerlinux.github.io/tree/master/recipes/monitoring/zabbix-3-ha-cluster/scripts "Our Zabbix 3 Recipe Support Scripts")
 

@@ -38,6 +38,6 @@ This is not only a active/active solution. This is a fully load-balanced solutio
 
 ## What files you'll find here ?:
 
-* RECIPE-Cluster-MariaDB-10.1-C7.md: Our recipe, in markdown format.
-* scripts: Directory with scripts referenced by our recipe
+* [RECIPE-Cluster-MariaDB-10.1-C7.md: Our recipe, in markdown format.](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/databases/mariadb-cluster-centos7/RECIPE-Cluster-MariaDB-10.1-C7.md "Our MariaDB Cluster Recipe")
+* [scripts: Directory with scripts referenced by our recipe.](https://github.com/tigerlinux/tigerlinux.github.io/tree/master/recipes/databases/mariadb-cluster-centos7/scripts "Our Recipe Support Scripts")
 
