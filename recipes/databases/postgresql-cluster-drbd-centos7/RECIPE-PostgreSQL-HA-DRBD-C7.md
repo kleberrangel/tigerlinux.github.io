@@ -109,7 +109,7 @@ vi /etc/tuned/custom-thp/script.sh
 
 With contents:
 
-```
+```bash
 #!/bin/sh
 
 . /usr/lib/tuned/functions
@@ -592,7 +592,7 @@ vi /etc/init.d/postgressvc
 
 With the contents:
 
-```
+```bash
 #!/bin/bash
 #
 
@@ -1032,7 +1032,7 @@ vi /usr/local/bin/postgres-db-control.sh
 
 Contents:
 
-```
+```bash
 #!/bin/bash
 #
 # Postgres-DB control script
@@ -1149,7 +1149,7 @@ vi /etc/init.d/postgressvc
 
 New Content:
 
-```
+```bash
 #!/bin/bash
 #
 
@@ -1293,7 +1293,7 @@ vi /usr/local/bin/postgres-databases-backup.sh
 
 Contents:
 
-```
+```bash
 #!/bin/bash
 #
 # Postgres-DB backup script

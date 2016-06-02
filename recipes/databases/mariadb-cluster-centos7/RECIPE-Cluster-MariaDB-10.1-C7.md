@@ -275,7 +275,7 @@ vi /usr/local/bin/server-backup.sh
 
 Contents:
 
-```
+```bash
 #!/bin/bash
 #
 # Server Backup Script
