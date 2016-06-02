@@ -460,7 +460,7 @@ corosync-cmapctl | grep members
 pcs status corosync
 ```
 
-We verify the config statte and disable stonith:
+We verify the config state and disable stonith:
 
 ```
 crm_verify -L -V

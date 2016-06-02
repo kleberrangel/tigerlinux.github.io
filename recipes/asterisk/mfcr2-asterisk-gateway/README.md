@@ -29,11 +29,13 @@ About the software: You'll need a machine with the following software requerimen
 * Centos 6 (32 or 64) fully updated.
 * EPEL Repository installed. For EPEL install instruction see: https://fedoraproject.org/wiki/EPEL.
 
+
 ## What knowledge should you need to have at hand ?:
 
 * General Linux administration.
 * Asterisk Knowledge.
 * VoIP and Telephony concepts.
+
 
 ## What files you'll find here ?:
 
