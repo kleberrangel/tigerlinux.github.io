@@ -502,7 +502,7 @@ vi /usr/local/bin/zabbix-ha-control.sh
 
 Containing:
 
-```
+```bash
 #!/bin/bash
 #
 # Zabbix HA Control Services
@@ -542,7 +542,7 @@ vi /etc/init.d/zabbixsvc
 
 New contents:
 
-```nash
+```bash
 #!/bin/bash
 #
 
