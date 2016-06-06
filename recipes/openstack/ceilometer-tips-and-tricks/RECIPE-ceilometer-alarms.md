@@ -141,8 +141,6 @@ ceilometer statistics --meter cpu_util --query resource=0169b375-335f-473c-9d32-
 +--------+----------------------------+----------------------------+---------------+---------------+---------------+---------------+-------+----------+----------------------------+----------------------------+
 ```
 
-Entramos de nuevo a la instancia cirros y eliminamos el proceso que genera el uso de 100% de CPU.
-
 We enter again to the cirros instance, and kill the proccess consuming the cpu. Then after 10 minutes, our alarm goes to normal (state:ok) again:
 
 ```

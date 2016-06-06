@@ -190,7 +190,7 @@ The most common types of keys you can use in your query are:
 Note: Please take a reading in ceilometer documentation to see other usable keys !.
 
 
-### What about the metric-samples and queries to specific projects/tenants ??
+### Case 2: What about the metric-samples and queries to specific projects/tenants ??
 
 If you are not sure about the "samples" supported by an specific resource, you can query ceilometer. See the following example:
 
@@ -358,7 +358,7 @@ ceilometer statistics --meter vcpus -q "project=3e611e2108db4a638b4845b7715e25ca
 So in conclusion, our guys at "Infrastructure project" has been using an average of 1.5920% of CPU Power and a maximun of 16 vpu's during all the timestamp we included in our queries.
 
 
-### Using scripting to get our data in an ordered way
+### Case 3: Using scripting to get our data in an ordered way
 
 We can use our openstack client tools to creativelly obtain some data from ceilometer. The following sample will give you some tips of how to use those tools to get the data you need in an ordered way:
 
