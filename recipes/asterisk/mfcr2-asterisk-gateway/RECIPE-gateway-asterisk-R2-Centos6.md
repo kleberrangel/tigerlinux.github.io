@@ -1,8 +1,11 @@
 # AN ASTERISK BASED VOIP GATEWAY SUPPORTING MFC-R2 PROTOCOL ON CENTOS 6
 
 **By Reinaldo Martínez P.**
+
 **Caracas, Venezuela:**
+
 **TigerLinux AT gmail DOT com**
+
 
 
 ## What we want to acomplish ?:

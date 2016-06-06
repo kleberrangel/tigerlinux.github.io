@@ -1,5 +1,11 @@
 # OPENSTACK CEILOMETER TIPS AND TRICKS.
 
+**By Reinaldo Martínez P.**
+
+**Caracas, Venezuela:**
+
+**TigerLinux AT gmail DOT com**
+
 
 ## About the Cloud and it's Metrics.
 
@@ -12,7 +18,7 @@ Almost everything can be measured by Ceilometer: Instance System Metrics (cpu, r
 Those metrics are also "married" to the project (tenant) which uses the resources, so in fact in a multi-tenant system we can obtain what resources has been used by each tenant, what is very good for billing purposes in a hybrid or public cloud.
 
 
-## How to obtain the metrics ?
+## How do we obtain the metrics ?
 
 Ceilometer store all it's metrics in a Database. The "production-usable" options range from MongoDB (non-sql approach) to SQL-based databases (MySQL, PostgreSQL, etc.), and more recently, gnocchi (we'll talk about gnocchi in other recipe).
 
