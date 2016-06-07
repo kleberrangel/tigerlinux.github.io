@@ -360,6 +360,7 @@ else
 
 With all EC2 support properlly installed and configured, we need to create the EC2 services and endpoints:
 
+```
 source /root/keystonerc_fulladmin
 
 openstack service create \
@@ -375,6 +376,7 @@ ec2 internal http://192.168.56.101:8788/services/Cloud
 
 openstack endpoint create --region RegionOne \
 ec2 admin http://192.168.56.101:8788/services/Cloud
+```
 
 Basic installation ready !
 
