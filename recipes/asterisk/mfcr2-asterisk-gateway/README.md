@@ -9,9 +9,9 @@
 
 ## Introduction
 
-Before we start this recipe I want to say something: I REALLY REALLY HATE MFCR2 Telephony Protocol and I REALLY REALLY HATE every and each telephony provider still using it. Having say that, I want to state my motivation on documenting this recipe: I have been many years of my technical career working with asterisk in my country (Venezuela) and the providers here uses this long-forgotten and very obsoleted protocol. That means, we **NEED** to support this on Asterisk if we want asterisk to really work in Venezuela (and other countries still using R2).
+Before we start this recipe I want to say something: I REALLY REALLY HATE MFCR2 Telephony Protocol and I REALLY REALLY HATE every and each telephony provider still using it. Having said that, I want to state my motivation about documenting this recipe: In many years of my technical career I have been working with asterisk in my country (Venezuela). The providers here uses this long-forgotten and very obsoleted protocol. That means, we **NEED** to support this R2 protocol on Asterisk if we want asterisk to really work in Venezuela (and other countries still using R2).
 
-In the moment I'm writing this recipe, I'm working for a call-center services company with all their services in OpenStack based cloud's (I'm the cloud arquitech by the way) and all VoIP systems we currently have are asterisk-based. Not all of them are in the cloud: The gateways are the exception.
+In the moment I'm writing this recipe, I'm working for a call-center services company with all their services in OpenStack based cloud's (I'm the cloud arquitech by the way) and all VoIP systems we currently have are asterisk-based. Not all of our asterisk implementations are in the cloud: The gateways are the exception.
 
 Our gateways are, of course, Asterisk based. First we used to have very modified Elastix-based gateways, but then we decided to make our own "asterisk-recipe" based on Centos 6.
 

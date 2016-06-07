@@ -1,4 +1,4 @@
-# AWS (EC2-API) EXTENDED SUPPORT INSTALL TO OPENSTACK (LIBERTY OVER CENTOS 7) AND EC2-CLASSIC/EC2-VPC LAB.
+# AWS (EC2-API) EXTENDED SUPPORT INSTALL ON OPENSTACK (LIBERTY OVER CENTOS 7) AND EC2-CLASSIC/EC2-VPC LAB.
 
 **By Reinaldo Martínez P.**
 
@@ -271,6 +271,10 @@ systemctl status openstack-ec2-api openstack-ec2-api-metadata openstack-ec2-api-
 ```
 
 We need to modify our "openstack-control.sh" script (included in our OpenStack Automated Installer) in order to include ec2 services:
+
+```
+vi /usr/local/bin/openstack-control.sh
+```
 
 ```bash
 if [ -f /etc/openstack-control-script-config/nova-full-installed ]
