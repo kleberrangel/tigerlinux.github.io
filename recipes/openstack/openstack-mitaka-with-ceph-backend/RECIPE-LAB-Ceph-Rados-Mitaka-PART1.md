@@ -62,7 +62,6 @@ apt-add-repository 'deb http://download.ceph.com/debian-jewel/ trusty main'
 aptitude update
 ```
 
-
 We are going to use the node-1 (172.16.11.62) as our ceph-deploy node. For this task we'll create a "ceph-deploy" user on all 3 nodes with the following commands.
 
 ```bash
@@ -135,6 +134,8 @@ echo "LABEL=ceph-storage /srv/ceph-storage xfs rw,noexec,nodev,noatime,nodiratim
 mount /srv/ceph-storage
 ```
 
+**NOTE:** At the end of this recipe you'll find some notes about real-life production environments. What we are doing here is good for a LAB, but not very good for a real-file production environment.
+
 Finally, in the ceph-deploy node (172.16.11.62) install the ceph-deploy tool:
 
 ```bash
@@ -146,9 +147,9 @@ This conclude the basic server setup.
 
 ### CEPH Cluster deployment:
 
-**Please take note: All the following command will be executed in the "deploy" node (172.16.11.62) and inside the ceph-deploy user:**
+**Please take note: All the following commands will be executed in the "deploy" node (172.16.11.62) and inside the ceph-deploy user:**
 
-Enter to the deploy user:
+Enter with "su" to the deploy user:
 
 ```bash
 su - ceph-deploy
@@ -183,16 +184,18 @@ rbd default features = 1
 NOTE: If you have multiple network interfaces, also add:
 
 ```
-public network = {ip-address}/{netmask}
+public network = {cidr}/{netmask}
+cluster network = {cidr}/{netmask}
 ```
 
 Example:
 
 ```
 public network = 172.16.11.0/24
+cluster network = 172.16.10.0/24
 ```
 
-**NOTE: In production conditions, you should have two networks: A public network for most client-server operations, and a storage network for inter-ceph-nodes operations.**
+**VERY IMPORTANT NOTE:** In production conditions, you should have two networks: A public network for most client-server operations, and a cluster network for inter-ceph-nodes operations. See [CEPH Network Documentation for more information about this topic.](http://docs.ceph.com/docs/jewel/rados/configuration/network-config-ref/)
 
 Now, we proceed to install the packages:
 
@@ -200,7 +203,7 @@ Now, we proceed to install the packages:
 ceph-deploy install vm-172-16-11-62 vm-172-16-11-63 vm-172-16-11-64
 ```
 
-NOTE: From the last command, you'll see an "apt" error. This does not affect really the installation, as the error happens for a "apt duplicated" entry. The install command create a repo file in /etc/apt/sources.list.d for the CEPH repository, so, in order to get rid of this line, after the "ceph deploy install XXXX" command is completed, edit your /etc/apt/sources.list file and comment the following line near the end of the file:
+**NOTE:** From the last command, you'll see an "apt" error. This does not affect really the installation, as the error happens for a "apt duplicated" entry. The install command create a repo file in /etc/apt/sources.list.d for the CEPH repository, so, in order to get rid of this line, after the "ceph deploy install XXXX" command is completed, edit your /etc/apt/sources.list file and comment the following line near the end of the file:
 
 ```bash
 # deb http://download.ceph.com/debian-jewel/ trusty main
@@ -226,7 +229,7 @@ ceph-deploy@vm-172-16-11-62:~/ceph-cluster$ ls -la *.keyring
 ceph-deploy@vm-172-16-11-62:~/ceph-cluster$ 
 ```
 
-Now, let's prepare and activate our 3 OSD's by running the following commands:
+Let's prepare and activate our 3 OSD's by running the following commands:
 
 ```bash
 ceph-deploy osd prepare vm-172-16-11-62:/srv/ceph-storage
@@ -244,7 +247,7 @@ ceph-deploy osd activate vm-172-16-11-64:/srv/ceph-storage
 
 **VERY IMPORTANT NOTE AIMED TO PRODUCTION SYSTEMS:** Please stop here and understand something: This is a LAB and does not reflect a very important point for production systems: The journal SHOULD BE in a separated disk or partition (better a disk), and for optimal performace, a SSD drive is recommended. More information here: [OSD Deploy documentation.](http://docs.ceph.com/docs/jewel/rados/deployment/ceph-deploy-osd/) For an optimal performance solution, use normal disks for the OSD main storage, and ssd for the Journal.
 
-Continuing, change to "all-can-read" the admin keyring:
+Continuing our quest, change to "all-can-read" the admin keyring:
 
 ```bash
 ssh vm-172-16-11-62 "sudo chmod +r /etc/ceph/ceph.client.admin.keyring"
@@ -277,7 +280,7 @@ ceph-deploy@vm-172-16-11-62:~/ceph-cluster$ ceph -w
 
 If you see the message "active+clean" then the cluster is clean and rebalanced. Exit the command with **ctrl+c**.
 
-We can (this is optional) set all our nodes as admins with the following command:
+We can (this is optional, but very usefull) set all our nodes as admins with the following command:
 
 ```bash 
 ceph-deploy admin vm-172-16-11-62 vm-172-16-11-63 vm-172-16-11-64
@@ -362,7 +365,7 @@ reboot
 
 After all nodes are started again, chech the cluster status with "ceph health" and "ceph -w".
 
-NOTE: You can use also the command: "ceph report"... but, prepare for a long reading !.
+NOTE: You can use also the command: "ceph report"... but, prepare for a long reading !. Maybe you'll want to do a "ceph report | less" command !.
 
 
 ### OpenStack POOL's and initial tests:
@@ -374,7 +377,7 @@ It's a good idea that you document yourself about ceph operations, and specially
 * [CEPH Pools.](http://ceph.com/docs/master/rados/operations/pools/)
 * [CEPH Placement Groups.](http://ceph.com/docs/master/rados/operations/placement-groups/)
 
-Let's create our first pool, that will be used for nova compute:
+Let's create our first pool, that will be used for some testing:
 
 NOTE: As all 3 nodes are admin's, you can run the following commands on any of the nodes, from the root account:
 
@@ -485,7 +488,6 @@ time dd if=/dev/zero of=myfile.dat bs=1M count=100
 real    0m0.102s
 user    0m0.000s
 sys     0m0.100s
-
 ```
 
 With our tests done, let's dismount the volume, and delete it:
@@ -502,7 +504,7 @@ rbd --pool nova remove nova-test
 Removing image: 100% complete...done.
 ```
 
-We our tests done, we proceed to create the remaining pools:
+Then, we proceed to create the remaining pools. Those will be used in our OpenStack deployment:
 
 ceph osd pool create volumes 64 64 replicated
 ceph osd pool create images 64 64 replicated
@@ -510,6 +512,13 @@ ceph osd pool create backups 64 64 replicated
 ceph osd pool create vms 64 64 replicated
 
 This conclude are first part !. The CEPH Cluster Creation.
+
+We will use those pools the following way:
+
+* "images" pool: For Glance Images Storage Backend.
+* "volumes" pool: For a Cinder Storage Backend.
+* "backups" pool: For Cinder Backups Storage Backend.
+* "vms" pool: For Nova/Libvirt instance ephemeral storage backend.
 
 
 ### Extra notes for production CEPH Clusters.

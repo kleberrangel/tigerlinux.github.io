@@ -40,7 +40,7 @@ We are dividing this recipe in two parts. The first part will create the CEPH cl
 
 ### Basic server setup:
 
-NOTE: Prior to OpenStack installation, we upgraded our OpenStack MITAKA server kernel to 4.2:
+**NOTE:** Prior to OpenStack installation, we upgraded our OpenStack MITAKA server kernel to 4.2:
 
 ```bash
 apt-get install --install-recommends linux-generic-lts-wily
@@ -54,14 +54,14 @@ useradd -c "Ceph Deploy User" -m -d /home/ceph-deploy -s /bin/bash ceph-deploy
 echo "ceph-deploy:P@ssw0rd"|chpasswd
 ```
 
-And give the account proper sudo permissions
+And give the account proper sudo permissions:
 
 ```bash
 echo "ceph-deploy ALL = (ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ceph-deploy
 sudo chmod 0440 /etc/sudoers.d/ceph-deploy
 ```
 
-In the ceph-deploy (172.16.11.62) node, we proceed to enter to the ceph-deploy account and the ceph-cluster dir:
+In the ceph-deploy node (172.16.11.62), we proceed to enter to the ceph-deploy account and the ceph-cluster dir:
 
 ```bash
 su - ceph-deploy
@@ -154,7 +154,7 @@ The "uuidgen" command exit give us the following UUID (of course, this will be d
 21c6ed7f-dbc8-43cb-bc30-c28c4a6c481a
 ```
 
-With this uuid we proceed to run the following commands (in the openstack server):
+With this uuid, we proceed to run the following commands (in the openstack server):
 
 ```bash
 cd /tmp
@@ -184,7 +184,7 @@ virsh secret-set-value --secret 21c6ed7f-dbc8-43cb-bc30-c28c4a6c481a --base64 $(
 rm -f secret.xml client.cinder.key
 ```
 
-Now, we can proceed to configure each OpenStack component:
+Now, we can proceed to configure each OpenStack component, one by one.
 
 
 ### Glance Configuration:
@@ -220,7 +220,7 @@ NOTE: The "openstack-control.sh" script is part of the ["TigerLinux OpenStack MI
 
 ### Cinder Configuration:
 
-Our OpenStack installation have a LVM backend (enabled_backends =lvm) we are going to add an additional backend, named "rbd".
+Our OpenStack installation already have a LVM backend (enabled_backends=lvm). We are going to add an additional backend, named "rbd".
 
 By using crudini, we proceed to re-configure cinder:
 
@@ -268,6 +268,9 @@ Result:
 +---------------------------------+--------------------------------------+
 ```
 
+That way, you'll have both the LVM and the RBD backends. This is very common. Normally, our automated openstack installer at github allows you to select and automate the configuration of 3 different backends: nfs, gluster and lvm. In production environments is very common to have many different cinder-volume backends for many different storage solutions. That's very "101" in OpenStack deployments.
+
+
 ### Cinder Backups.
 
 First, we need to enable cinder backups in horizon:
@@ -292,7 +295,7 @@ Save the file, and restart apache:
 /etc/init.d/apache2 restart
 ```
 
-Next, by using crudini, modify cinder to enable backups to ceph:
+Next, by using crudini, modify cinder to enable backups using ceph backed storage:
 
 ```bash
 cp /etc/cinder/cinder.conf /etc/cinder/cinder.conf.PRE-RBD-BACKUPS
@@ -336,7 +339,7 @@ openstack-control.sh restart cinder
 
 ### Nova and Libvirt
 
-In the openstack server, edit the /etc/ceph/ceph.conf file:
+In the openstack server, edit the `/etc/ceph/ceph.conf` file:
 
 ```bash
 vi /etc/ceph/ceph.conf
@@ -351,6 +354,9 @@ And add the following lines:
     admin socket = /var/run/ceph/guests/$cluster-$type.$id.$pid.$cctid.asok
     log file = /var/log/qemu/qemu-guest-$pid.log
     rbd concurrent management ops = 20
+[mon]
+        mon host = vm-172-16-11-62,vm-172-16-11-63,vm-172-16-11-64
+        mon addr = 172.16.11.62:6789,172.16.11.63:6789,172.16.11.64:6789
 ```
 
 Create the following directories and set their permissions:
@@ -390,6 +396,7 @@ First test, let's create a volume, type "rbd":
 source /root/keystonerc_fulladmin
 
 openstack volume create --type rbd --size 1 mycephvol
+
 +---------------------+--------------------------------------+
 | Field               | Value                                |
 +---------------------+--------------------------------------+
@@ -448,7 +455,7 @@ First, we "cd" to the openstack installer directory, where we'll find "cirros" i
 cd /usr/local/openstack/openstack-mitaka-installer-ubuntu1404lts/
 ```
 
-NOTE: The installer already add the cirros images, in qcow format, but, rbd requires the images in raw format, wo we'll transform them first:
+**NOTE:** The installer already add the cirros images, in qcow format, but, rbd requires the images in raw format, so we'll transform them first:
 
 ```bash
 qemu-img convert -f qcow2 -O raw \
@@ -475,7 +482,9 @@ openstack image create "Cirros 0.3.4 32 bits RBD Based" \
 --property os_require_quiesce=yes
 ```
 
-We can check our images:
+Did you noticed the properties ?. Those are "highly recommended" for images that will produce rbd-backend instances !. Don't forget to add them. You can do it at creation time, or later in the horizon dashboard, in the "image metadata" section for each image. Also, remember to use raw images instead qcow !.
+
+We can check our images in glance:
 
 ```bash
 source /root/keystonerc_fulladmin
@@ -490,7 +499,7 @@ openstack image list
 +--------------------------------------+--------------------------------+--------+
 ```
 
-We can check in RBD:
+And also in RBD:
 
 ```bash
 [root@vm-172-16-11-179 openstack-mitaka-installer-ubuntu1404lts(keystone_fulladmin)]$ rbd --pool images ls
@@ -506,7 +515,7 @@ NAME                                      PROVISIONED   USED
 
 ### Testing - Nova
 
-Now, let's boot an instance:
+Now, our more important test: Let's boot an instance:
 
 ```bash
 source /root/keystonerc_fulladmin
@@ -583,6 +592,8 @@ aa1a1b6f-7498-4861-a44b-85c88c0975a7_disk.swap       2048M 4096k
 [root@vm-172-16-11-179 nova(keystone_fulladmin)]$ 
 ```
 
+All ephemeral space will be backend by CEPH. Even the swap is there !.
+
 We proceed to delete our instance:
 
 ```bash
@@ -598,10 +609,18 @@ NAME PROVISIONED USED
 [root@vm-172-16-11-179 nova(keystone_fulladmin)]$ 
 ```
 
-This finish our LAB. Remember the recomendations:
+This finish our LAB. All storage components used by OpenStack are "RBD" backed !.
+
+
+### CEPH and OPENSTACK recommendations
 
 * If possible, separate your public network from your cluster network. Use the public network for your client-server connections, and your cluster network for inter-node operations (like OSD replication and heartbeat). More information here: [CEPH Network Configuration Reference.](http://docs.ceph.com/docs/jewel/rados/configuration/network-config-ref/)
 * For maximun troughput, in your OSD's, DO NOT set your journal in the same disk or partition of your data disk. This decreases performance. Use a separate disk for the Journal, and if possible, a ssd disk. More information at: [OSD Deploy documentation.](http://docs.ceph.com/docs/jewel/rados/deployment/ceph-deploy-osd/)
 * Like any other network-based file-service solution, CEPH can be affected by lack of bandwidth. Depending of your load, you'll need etherner interfaces from 1G to 10G. Take this into account and monitor your CEPH nodes network utilization closelly in order to identify network bottlenecks.
+*  In OpenStack, don't mix your traffic in a single nic. That will completelly destroy your performance. In the same way you should have a separated traffic network for "ceph-public" and "ceph-cluster", set your openstack production deployment with "at least" 3 networks if you want to use ceph: An admin and inter-openstack communication network, a "external-instance-communication" network (for your intances external and-or-vlan's based networks), and a "network storage" network which you will use to communicate your openstack nodes with ceph cluster "public network".
+* If you follow the former networking advice, try to set your "openstack storage network" in the same IP space as "ceph public network" in order to avoid passing trough a router. Again, think on terms of performance and avoid common networking bottlenecks.
+* Consider network bonding for your primary traffic !. Also, and depending of your switches, you can aggregate traffic in multiple nic's.
+* Think on giga and ten-giga (10G) interfaces for your storage network. Everything related to CEPH must avoid network bottlenecks, both in OpenStack and in the CEPH Cluster.
+* Monitor everything: With OpenSource solutions like mrtg, rddtool, icinga, cacti, zabbix, etc., there is NO POSSIBLE EXCUSE for you or your team about the proper monitoring of your production environment. The first way to correct a bottleneck is to identify it's presence, and this is where proper monitoring of your T.I. infrastructure becomes vital and mandatory !.
 
 END.-
