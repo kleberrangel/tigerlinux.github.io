@@ -485,15 +485,17 @@ openstack image create "Cirros 0.3.4 32 bits RBD Based" \
 
 Did you noticed the properties ?. Those are "highly recommended" for images that will produce rbd-backend instances !. Don't forget to add them. You can do it at creation time, or later in the horizon dashboard, in the "image metadata" section for each image. Also, remember to use raw images instead qcow !.
 
-**VERY IMPORTANT NOTE - READ THIS OR YOU WILL BE UNABLE TO BOOT-FROM-CINDER:** Those properties will make imposible to boot from a cinder backed volume, but, it does not affect at all attaching a rbd backend volume to an existing instance as an extra disk. Change "--property hw_disk_bus=scsi" to "--property hw_disk_bus=virtio" in order to let the image to work properly in all conditions. Ff you want to play safe, forget the [CEPH recomendation ](http://docs.ceph.com/docs/master/rbd/rbd-openstack/) about "--property hw_disk_bus=scsi" and ALWAYS set **"--property hw_disk_bus=virtio"**. 
+**VERY IMPORTANT NOTE - READ THIS OR YOU WILL BE UNABLE TO BOOT-FROM-CINDER:** Those properties will make imposible to boot from a cinder backed volume, but, it does not affect at all attaching a rbd backend volume to an existing instance as an extra disk. Change "--property hw_disk_bus=scsi" to "--property hw_disk_bus=virtio" in order to let the image to work properly in all conditions. If you want to play safe, forget the [CEPH recomendation ](http://docs.ceph.com/docs/master/rbd/rbd-openstack/) about "--property hw_disk_bus=scsi" and ALWAYS set **"--property hw_disk_bus=virtio"**. 
 
-Another thing you need to consider, is booting from right cinder backend when you have multiple cinder backends (this LAB in fact have rbd and lvm). You can force (again, using properties) a image to boot on a specific cinder backend when using the default launch panel in horizon.
+Another thing you need to consider, is booting from the right cinder backend when you have multiple cinder backends (this LAB in fact have rbd and lvm configured). You can force (again, using properties) a image to boot on a specific cinder backend when using the default launch panel in horizon.
 
 Just go to your image in Horizon, select your image, edit the "metadata" and search for "volume type", then set it to the desired backend name (rbd for this LAB). If set trough "property", use:
 
 ```bash
 --cinder_img_volume_type=rbd
 ```
+
+That last sample will force your image to use the "rbd" backend when you use the standar launch instance panel in horizon.
 
 We can check our images in glance:
 
