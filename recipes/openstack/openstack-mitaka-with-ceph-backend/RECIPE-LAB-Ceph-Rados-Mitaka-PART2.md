@@ -85,7 +85,7 @@ ssh 172.16.11.179 "sudo apt-get -y install ceph-common python-ceph"
 
 Still in the ceph-deploy account, we proceed to create the accounts for the OpenStack modules:
 
-Cinder:
+Cinder and Nova:
 
 ```bash
 ceph auth get-or-create client.cinder mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=vms, allow rx pool=images'
@@ -125,7 +125,7 @@ Result:
         key = AQAdrFlXaXdnNxAA5N/ZBUnE+/3sZIhThKrPIA==
 ```
 
-After the keys are created for cinder, cinder-backup and glance are created, we proceed to deploy them from the ceph-deploy node to the openstack server:
+After the keys are created for cinder, cinder-backup and glance, we proceed to deploy them from the "ceph-deploy" node to the "openstack" server:
 
 ```bash
 ceph auth get-or-create client.glance | ssh 172.16.11.179 "sudo tee /etc/ceph/ceph.client.glance.keyring"
@@ -185,6 +185,8 @@ virsh secret-set-value --secret 21c6ed7f-dbc8-43cb-bc30-c28c4a6c481a --base64 $(
 rm -f secret.xml client.cinder.key
 ```
 
+**NOTE:** If your production setup contains multiple compute nodes, try to use the same UUID for all of them.
+
 Now, we can proceed to configure each OpenStack component, one by one.
 
 
@@ -203,12 +205,14 @@ crudini --set /etc/glance/glance-api.conf glance_store rbd_store_user glance
 crudini --set /etc/glance/glance-api.conf glance_store rbd_store_ceph_conf /etc/ceph/ceph.conf
 ```
 
-**NOTE:** When creating your images, set the following properties on them:
+**NOTE:** CEPH Documentation recommends that the following properties must be set on any glance image to be used with CEPH:
 
 * hw_scsi_model=virtio-scsi
 * hw_disk_bus=scsi
 * hw_qemu_guest_agent=yes
 * os_require_quiesce=yes
+
+But, we found that the property "hw_disk_bus=scsi" is best to be set as "hw_disk_bus=virtio". We'll explain this later.
 
 Finally, we restart glance:
 
@@ -366,6 +370,8 @@ Create the following directories and set their permissions:
 mkdir -p /var/run/ceph/guests/ /var/log/qemu/
 chown libvirt-qemu:kvm /var/run/ceph/guests /var/log/qemu/
 ```
+
+**NOTE:** Those permissions vary from distro to distro. We are using current libvirt packages at ubuntu-cloud-archive.
 
 By using "crudini", we proceed to reconfigure nova:
 
@@ -630,10 +636,10 @@ This finish our LAB. All storage components used by OpenStack are "RBD" backed !
 * If possible, separate your public network from your cluster network. Use the public network for your client-server connections, and your cluster network for inter-node operations (like OSD replication and heartbeat). More information here: [CEPH Network Configuration Reference.](http://docs.ceph.com/docs/jewel/rados/configuration/network-config-ref/)
 * For maximun troughput, in your OSD's, DO NOT set your journal in the same disk or partition of your data disk. This decreases performance. Use a separate disk for the Journal, and if possible, a ssd disk. More information at: [OSD Deploy documentation.](http://docs.ceph.com/docs/jewel/rados/deployment/ceph-deploy-osd/)
 * Like any other network-based file-service solution, CEPH can be affected by lack of bandwidth. Depending of your load, you'll need etherner interfaces from 1G to 10G. Take this into account and monitor your CEPH nodes network utilization closelly in order to identify network bottlenecks.
-*  In OpenStack, don't mix your traffic in a single nic. That will completelly destroy your performance. In the same way you should have a separated traffic network for "ceph-public" and "ceph-cluster", set your openstack production deployment with "at least" 3 networks if you want to use ceph: An admin and inter-openstack communication network, a "external-instance-communication" network (for your intances external and-or-vlan's based networks), and a "network storage" network which you will use to communicate your openstack nodes with ceph cluster "public network".
+*  In OpenStack, don't mix all your traffic in a single nic. That will completelly destroy your performance. In the same way you should have a separated traffic network for "ceph-public" and "ceph-cluster", set your openstack production deployment with "at least" 3 networks if you want to use ceph: An admin and inter-openstack communication network, a "external-instance-communication" network (for your intances external and-or-vlan's based networks), and a "network storage" network which you will use to communicate your openstack nodes with ceph cluster "public network".
 * If you follow the former networking advice, try to set your "openstack storage network" in the same IP space as "ceph public network" in order to avoid passing trough a router. Again, think on terms of performance and avoid common networking bottlenecks.
 * Consider network bonding for your primary traffic !. Also, and depending of your switches, you can aggregate traffic in multiple nic's.
 * Think on giga and ten-giga (10G) interfaces for your storage network. Everything related to CEPH must avoid network bottlenecks, both in OpenStack and in the CEPH Cluster.
-* Monitor everything: With OpenSource solutions like mrtg, rddtool, icinga, cacti, zabbix, etc., there is NO POSSIBLE EXCUSE for you or your team about the proper monitoring of your production environment. The first way to correct a bottleneck is to identify it's presence, and this is where proper monitoring of your T.I. infrastructure becomes vital and mandatory !.
+* Monitor everything: With OpenSource solutions like mrtg, rddtool, icinga, cacti, zabbix, etc., there is NO POSSIBLE EXCUSE for you or your team about the proper monitoring of your production environment. The first way to correct a bottleneck is to identify it's presence, and this is where proper monitoring of your production infrastructure becomes vital and mandatory !.
 
 END.-
