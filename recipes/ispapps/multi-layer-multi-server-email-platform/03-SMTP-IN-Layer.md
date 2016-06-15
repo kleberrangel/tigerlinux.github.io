@@ -318,7 +318,7 @@ And make the changes:
 
 ```bash
 $max_servers = 16;
-$mydomain = 'pdpcorreotest.dom';
+$mydomain = 'domain01.dom';
 $sa_tag_level_deflt  = -999;
 $sa_tag2_level_deflt = 9.0;
 $sa_kill_level_deflt = 12.0;
@@ -333,7 +333,15 @@ $sa_local_tests_only = 0;
 $myhostname = 'vm-172-16-11-97.cloud0.hc.mycompany.dom';
 ```
 
-NOTE: Set the hostname to the actual server FQDN.
+**NOTES:**
+
+- Set the hostname to the actual server FQDN.
+- With this configuration, all detected viruses will be discarded. Also, spam with very high scores will be dicarded.
+- Spam detected, but not discarded (spam level's low, but still spam) will me tagged. Those tags will be used by dovecot filters in order to put the email's in the user's junk folder.
+- Bad header (malformed mails) is up to you if you want to discard them or not. In this configuration, we allow it to pass, but, you may want to discard them too.
+- In this amavis/postfix model, you cannot use other options but "D_DISCARD" and "D_PASS". Do not try to use other available options like reject. Only if you configure amavis trouch a milter you can use such options. For this configuration, postfix is using amavis as a content filter (not a mail-filter or "milter").
+- Adjust your "kill" and "cutoff" levels if you need to be more restrictive (lower the score), but, remember this can cause your system to detect more "false positives" and you'll border "censorship". Protect yourself, but not at the cost of censor your own users.
+- Yo can disable SpamAssassin amavis component remote tests, by uncommenting the key/value "$sa_local_tests_only = 1;". Just do this if your internet traffic is too high, or if your platform is taking too much time to check incomming mail.
 
 Save the file and start/enable amavis:
 
