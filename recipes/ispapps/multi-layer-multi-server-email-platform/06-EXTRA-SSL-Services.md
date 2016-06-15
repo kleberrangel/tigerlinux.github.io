@@ -138,8 +138,10 @@ Change your LBaaS service for Webmail in order to use port 443 instead of port 8
 
 Copy our certificate/key:
 
+```bash
 cat /etc/pki/CA/certs/allservers.crt > /etc/pki/dovecot/certs/dovecot.pem
 cat /etc/pki/CA/private/allservers.key > /etc/pki/dovecot/private/dovecot.pem
+```
 
 Edit your `/etc/dovecot/dovecot.conf` file, and add the following config items at the beggining of the file:
 
