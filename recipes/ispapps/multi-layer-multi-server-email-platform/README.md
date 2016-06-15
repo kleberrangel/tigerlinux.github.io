@@ -122,6 +122,6 @@ We devided our recipes "by layer" in the following order:
 * [SMTP-IN Services](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/ispapps/multi-layer-multi-server-email-platform/03-SMTP-IN-Layer.md)
 * [SoGo-Based WEBMAIL/Groupware Services](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/ispapps/multi-layer-multi-server-email-platform/04-SOGO-Webmail-Layer.md)
 * [EXTRA: SOLR for FTS at IMAP Level](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/ispapps/multi-layer-multi-server-email-platform/05-EXTRA-SOLR-FTS.md)
-* [EXTRA: SSL SERVICES](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/ispapps/multi-layer-multi-server-email-platform/06-EXTRA-SSL-Services.md)
+* [EXTRA: SSL Encrypted Services](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/ispapps/multi-layer-multi-server-email-platform/06-EXTRA-SSL-Services.md)
 
 END.-
