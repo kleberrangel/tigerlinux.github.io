@@ -611,7 +611,7 @@ aa1a1b6f-7498-4861-a44b-85c88c0975a7_disk.swap       2048M 4096k
 [root@vm-172-16-11-179 nova(keystone_fulladmin)]$ 
 ```
 
-All ephemeral space will be backend by CEPH. Even the swap is there !.
+All ephemeral space will be located in the CEPH cluster. Even the swap is there !.
 
 We proceed to delete our instance:
 
