@@ -525,6 +525,6 @@ We will use those pools the following way:
 
 * If possible, separate your public network from your cluster network. Use the public network for your client-server connections, and your cluster network for inter-node operations (like OSD replication and heartbeat). More information here: [CEPH Network Configuration Reference.](http://docs.ceph.com/docs/jewel/rados/configuration/network-config-ref/)
 * For maximun troughput, in your OSD's, DO NOT set your journal in the same disk or partition of your data disk. This decreases performance. Use a separate disk for the Journal, and if possible, a ssd disk. More information at: [OSD Deploy documentation.](http://docs.ceph.com/docs/jewel/rados/deployment/ceph-deploy-osd/)
-* Like any other network-based file-service solution, CEPH can be affected by lack of bandwidth. Depending of your load, you'll need etherner interfaces from 1G to 10G. Take this into account and monitor your CEPH nodes network utilization closelly in order to identify network bottlenecks.
+* Like any other network-based file-service solution, CEPH can be affected by lack of bandwidth. Depending of your load, you'll need ethernet interfaces from 1G to 10G. Take this into account and monitor your CEPH nodes network utilization closely in order to identify network bottlenecks.
 
 END.-
