@@ -1,4 +1,4 @@
-# WELCOME TO TIGERLINUX RECIPES FOR T.I. SURVIVAL
+# WELCOME TO TIGERLINUX RECIPES FOR I.T. SURVIVAL
 
 Hello People,
 
@@ -6,7 +6,7 @@ This place is dedicated for every tech-guy-or-gal who love the Information Techn
 
 You can (and should) view this page using Github Pages. Link:
 
-[http://tigerlinux.github.io](http://tigerlinux.github.io "TigerLinux Recipes for T.I. Survival")
+[http://tigerlinux.github.io](http://tigerlinux.github.io "TigerLinux Recipes for I.T. Survival")
 
 This repository (and it's github page counterpart) is divided on the following sections:
 
