@@ -97,7 +97,7 @@ If you want to use Horizon, you need to do some extra things:
 * Second, modify the "webserver_lb.yaml" URL in the "autoscaling-with-lbaasv2/Template-AutoScaling-LBaaSV2-ENV-HTTP-Server.yaml" environment template.
 * Next, in horizon, use the main template file (Template-AutoScaling-LBaaSV2.yaml) and the environment file you just modified (Template-AutoScaling-LBaaSV2-ENV-HTTP-Server.yaml). The HEAT web panel will allow you to choose the proper parameters and launch the HEAT Stack from those two files, and the "web located" "webserver_lb.yaml" file.
 
-**VERY IMPORTANT NOTE:** The bootstrap secuence in the "webserver_lb.yaml" file consider options to install apache or nginx in the following possible linux distros: Centos 6, Centos 7, Debian 7 and Ubuntu 14.04lts. If you plan to use any other distro, please make the proper changed to the bootstrap secuence.
+**VERY IMPORTANT NOTE:** The bootstrap secuence in the "webserver_lb.yaml" file consider options to install apache or nginx in the following possible linux distros: Centos 6, Centos 7, Debian 7 and Ubuntu 14.04lts. If you plan to use any other distro, please make the proper changes to the bootstrap secuence.
 
 
 ## About ceilometer:
