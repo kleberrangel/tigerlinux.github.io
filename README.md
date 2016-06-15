@@ -26,11 +26,11 @@ I remember when I was in my twenties (I'm in my late forties right now) and I wa
 
 From that day near 1996 up to now, 2016, I've been working in many infrastructure applications using Linux (and general OpenSource software), mostly dedicated to ISP applications, and more recently, the Cloud !. All, for production systems over intensive-heavy-damaging-crazy loads !.
 
-For every single application and T.I. solution I tried to understand (and get into production) from the OpenSource world, there was tonnes and tonnes of documentation ant tips wrote by community members around the world !.
+For every single application and I.T. solution I tried to understand (and get into production) from the OpenSource world, there was tonnes and tonnes of documentation ant tips wrote by community members around the world !.
 
 About 5 years ago I decided it was the time to give back to the OpenSource community at least a little bit of what the OpenSource community gave to me along all those years (preciselly 20 years). First, I decided to create a fully automated/unattended installer for OpenStack (grizzly that time), and up today I still release installer versions for any openstack release for most common distributions (debian, centos and ubuntu). You can see, download, git clone, and in general use freely those installers from my [github repository.](https://github.com/tigerlinux). Next, this place !.
 
-After working in several companies in my country (Venezuela) and two international companies (an ISP and a VoIP provider), I manage to document a lot of things related to infrastructure applications (mail, dns, dhcp, asterisk apps, web, openstack clouds, etc.) and now it's time to get the best of those documents translated and published as "recipes" for T.I. survival in the real world, and that's the main goal of this place !.
+After working in several companies in my country (Venezuela) and two international companies (an ISP and a VoIP provider), I manage to document a lot of things related to infrastructure applications (mail, dns, dhcp, asterisk apps, web, openstack clouds, etc.) and now it's time to get the best of those documents translated and published as "recipes" for I.T. survival in the real world, and that's the main goal of this place !.
 
 Then that's it !. Remember I'm gradually translating and adapting to markdown format everything I have in my private files so It will take me some time to have every and each recipe here. Meanwhile, stay tuned to this site, and to my blog at [http://tigerlinuxblog.wordpress.com.](http://tigerlinuxblog.wordpress.com "My Wordpress Blog")
 
