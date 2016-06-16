@@ -118,7 +118,7 @@ vi /etc/init.d/unifi
 
 Containing:
 
-```
+```bash
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides: unifi
