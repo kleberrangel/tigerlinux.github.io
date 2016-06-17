@@ -7,7 +7,7 @@
 
 ## Introduction.
 
-Since [**"Heartbleed"**](https://en.wikipedia.org/wiki/Heartbleed) ssl vulnerability was discovered, most internet-class applications became potential hacking targets. Of course, the community reaced very fast in order to patch most common vulnerabilities, and, make software adjustments recommendations in order to harden SSL/TLS exposed services.
+Since [**"Heartbleed"**](https://en.wikipedia.org/wiki/Heartbleed) ssl vulnerability was discovered, most internet-class applications became potential hacking targets. Of course, the community reacted very fast in order to patch most common vulnerabilities, and, make software adjustments recommendations in order to harden SSL/TLS exposed services.
 
 This short recipe will show you which common configurations you should apply in packages like apache, sendmail, dovecot, postfix, etc., in order to harden your encription configuration.
 

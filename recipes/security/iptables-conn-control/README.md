@@ -9,7 +9,7 @@
 
 IPTABLES is the packet-filter de-facto implementation in all modern linux distributions. No matter if you use solutions like firewalld, ufw, or plain-old iptables systinit scripts, the final point is the iptables command creating rules in the kernel.
 
-One of the things we can do with IPTABLES, is apply rates to incomming connections, which is very usefull specially for Internet-oriented services. This very short recipe will show you can use iptables rules in order to protect your appilication by the aplication of limit by connection numbers or connections by time unit.
+One of the things we can do with IPTABLES, is apply rates to incomming connections, which is very usefull specially for Internet-oriented services. This very short recipe will show how you can use iptables rules in order to protect your application by with limits to maximun connections per origin and maximun connections per time unit.
 
 
 ## Limit max connections per client IP:
@@ -31,7 +31,7 @@ Example:
 iptables -A INPUT -p tcp --syn --dport 443 -m connlimit --connlimit-above 20 -j REJECT --reject-with tcp-reset
 ```
 
-This example will limit to 20 connections from a single IP to the application port 443 (https).
+This example will limit to 20 connections from a single IP to the application port 443 (https). Any connection exceeding the limit will receive a tcp-reset.
  
 
 ## Limit connections rates (throttling):
