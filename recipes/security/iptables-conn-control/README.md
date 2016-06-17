@@ -9,7 +9,7 @@
 
 IPTABLES is the packet-filter de-facto implementation in all modern linux distributions. No matter if you use solutions like firewalld, ufw, or plain-old iptables systinit scripts, the final point is the iptables command creating rules in the kernel.
 
-One of the things we can do with IPTABLES, is apply rates to incomming connections, which is very usefull specially for Internet-oriented services. This very short recipe will show how you can use iptables rules in order to protect your application by with limits to maximun connections per origin and maximun connections per time unit.
+One of the things we can do with IPTABLES, is apply rates to incomming connections, which is very usefull specially for Internet-oriented services. This very short recipe will show how you can use iptables rules in order to protect your application with limits to maximun connections per origin and maximun connections per time unit.
 
 
 ## Limit max connections per client IP:
