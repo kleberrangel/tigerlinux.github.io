@@ -10,7 +10,7 @@
 We want to create a load balancer cluster, perfectly capable of load-balance simple protocols like http (port 80 over tcp), and more complex protocols like SIP over UDP on asterisk machines.
 
 
-## What kind of hardware do we need ?:
+## What kind of hardware and software do we need ?:
 
 This LAB is aimed to production, so, we'll start with a production-like setup.
 
@@ -32,7 +32,7 @@ Also, all our machines has "port-security" disabled on their openstack-based vir
 **NOTE:** In normal conditions, you don't need to disable the "port security" extension in the SIP Servers. It is just for "this balancing scenario" that you will need to do it. The way the whole solution is constructed need the openstack-instance-ports (neutron ports) fully free of normal anti-spoofing control in the SIP servers. About the load balancer, is mandatory to disable the port-security, as it will forward IP packets which source is not the load balancer servers (then, violating anti-spoofing rules).
 
 
-## How did we constructed the solution ?:
+## How it was constructed the whole solution ?:
 
 
 ### Piranha software installation and basic server setup:
@@ -63,7 +63,7 @@ Edit the file (both servers):
 
 ```bash
 vi /etc/sysctl.conf:
-bash
+```
 
 And change the ip_forward config to "1":
 

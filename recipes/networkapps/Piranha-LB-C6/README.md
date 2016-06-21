@@ -12,9 +12,9 @@ If you have worked with SIP before and tried to load-balance it with any standar
 I'm not entering here in the very-complex details of SIP. Instead, I'll go directly to a SIP load balancer solution perfectly usable in production environments with asterisk and other opensource SIP implementations.
 
 
-## What kind of software we need ?:
+## What kind of hardware and software do we need ?:
 
-This is based on Centos 6. The solution used (piranha) is no longer available on Centos 7, but it works flawlessly on Centos 6 so you can stick with this distro as long as you want. The solution is clusterized, so, two servers (mine are Virtual, OpenStack based) are OK.
+This is based on Centos 6. The solution used (piranha) is no longer available on Centos 7, but it works flawlessly on Centos 6 so you can stick with this distro as long as you want. The solution is clusterized, so, two servers (mine are Virtual, OpenStack based) are needed.
 
 
 ## What about the security system if I'm running this in OpenStack ?:
