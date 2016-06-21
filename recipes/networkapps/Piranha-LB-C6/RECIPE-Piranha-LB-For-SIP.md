@@ -608,7 +608,7 @@ FWM  3 wlc
   -> 172.16.11.76:5060            Route   1     0          69
   -> 172.16.11.77:5060            Route   1     0          69
   -> 172.16.11.78:5060            Route   1     0          69
-```bash
+```
 
 This show's the proper balancing across all members of the SIP service.
 
