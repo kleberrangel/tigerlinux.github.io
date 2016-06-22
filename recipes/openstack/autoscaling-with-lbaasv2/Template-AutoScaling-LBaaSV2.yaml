@@ -229,7 +229,7 @@ resources:
     type: OS::Ceilometer::Alarm
     properties:
       meter_name: cpu_util
-      description: Scale-down if the average CPU < 15% for 1 minute
+      description: Scale-down if the average CPU < 15% for 10 minutes
       statistic: avg
       period: 600
       evaluation_periods: 1
