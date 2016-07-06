@@ -690,6 +690,130 @@ systemctl restart crond
 At this point, you'll have a ready-to-go Squid, with antivirus protection and blacklist's and proper crontabs for both blacklist and virus-signatures updates.
 
 
+### OPTIONAL: Statistics generator for Squid.
+
+This is optional and up to you: Statistics generation based on [SARG](https://sourceforge.net/projects/sarg/).
+
+First, install some dependencies:
+
+```bash
+yum install -y gcc gd gd-devel perl-GD wget pcre pcre-devel
+```
+
+Download SARG sources:
+
+```bash
+cd /workdir
+wget https://sourceforge.net/projects/sarg/files/sarg/sarg-2.3.10/sarg-2.3.10.tar.gz/download -O /workdir/sarg-2.3.10.tar.gz
+```
+
+Compile and install:
+
+```bash
+tar -xzvf /workdir/sarg-2.3.10.tar.gz -C /usr/local/src/
+cd /usr/local/src/sarg-2.3.10/
+autoreconf -fi
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+make
+make install
+```
+
+**NOTE:** The `autoreconf -fi` is vital in order to fix some "gettext" version mismatchs between the source and the OS.
+
+After the installation is done, we need to configure "sarg" for our SQUID installation:
+
+Edit the file:
+
+```bash
+vi /etc/sarg.conf
+```
+
+Change/Update/Uncomment:
+
+```bash
+access_log /var/log/squid/access.log
+output_dir /var/www/html/squid-reports
+date_format e
+index yes
+overwrite_report yes
+squidguard_conf /etc/squid/squidGuard.conf
+```
+
+**NOTE:** Explore all options in `/etc/sarg.conf` file for further customize your SARG installation.
+
+Save the file and create the following dir:
+
+```bash
+mkdir /var/www/html/squid-reports
+```
+
+In order to make things safer, we'll create an Apache definition with http simple auth:
+
+Create the file:
+
+```bash
+vi /etc/httpd/conf.d/squidreports.conf
+```
+
+Containing:
+
+```bash
+Alias /squid-reports /var/www/html/squid-reports
+
+<Location /squid-reports>
+	AuthType Basic
+	AuthName "Squid Reports"
+	AuthUserFile /var/www/squidreports.htpasswd
+	Require valid-user
+</Location>
+```
+
+Save the file, and run the following command in order to create your user and set it's password:
+
+```bash
+htpasswd -c /var/www/squidreports.htpasswd sarg
+```
+
+**NOTE:** For our LAB, we set the user "sarg" with password "P@ssw0rd".
+
+Next, reload or restart apache:
+
+```bash
+systemctl restart httpd
+```
+
+Let's generate our very first report:
+
+```bash
+/usr/bin/sarg -x
+```
+
+You can enter with any browser to the SARG URL in your server (remember it will ask for authentication):
+
+> http://SERVER_IP_OR_FQDN/squid-reports
+
+The final task, is create our crontab:
+
+```bash
+vi /etc/cron.d/sarg.crontab
+```
+
+Containing:
+
+```bash
+# Update SARG reports
+05 */1 * * * root /usr/bin/sarg -x > /var/log/last-sarg-run.log 2>&1
+```
+
+And, restart/reload your crontab:
+
+```bash
+systemctl restart crond
+```
+
+Every hour at the "05" minute, sarg will regenerate your reports.
+
+
 ## Extra notes for production systems:
 
 * Re-enable your firewall (firewalld) and enable the squid port (3128 tcp). If you change your squid port, change your firewall-d definition.
