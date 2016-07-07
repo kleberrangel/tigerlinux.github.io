@@ -767,7 +767,7 @@ After the restart is completed, with a browser enter to your redmine installatio
 
 * In the plugin "global" TAB, the path must be set to: /var/www/redmine/tmp/redmine_git_hosting/
 * In the plugin "hooks" TAB, the URL must be set to: http://localhost:3000/redmine. Apply the change, and click on "install hooks".
-* In the plugin "config test" TAB, ensure all is in the green. If not, you miss a step.
+* In the plugin "config test" TAB, ensure all is in the green. If not, you probably missed a step.
 
 Logout and restart thin (again):
 
