@@ -25,7 +25,7 @@ mount /MAILBOXES
 mkdir /MAILBOXES/C7
 ```
 
-By using NFS, we can use multiple servers in this layers, all pointed to the same resource. This is a common setup in most multi-server approachs.
+By using NFS, we can have multiple servers, all pointed to the same resource. This is a common setup in most POP/IMAP multi-server installations.
 
 
 ## Dovecot Setup for POP-IMAP.
