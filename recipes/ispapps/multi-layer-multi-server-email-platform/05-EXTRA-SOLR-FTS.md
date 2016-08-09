@@ -1,10 +1,12 @@
 # A MULTI LAYER / MULTI SERVER E-MAIL PLATFORM FOR THE CORPORATE PRIVATE CLOUD - EXTRA - SOLR INSTEAD OF LUCENE FOR FTS (DOVECOT)
 
-**By Reinaldo Martínez P.**
-
-**Caracas, Venezuela:**
-
-**TigerLinux AT gmail DOT com**
+- **By Reinaldo Martínez P.**
+- **Caracas, Venezuela.**
+- **TigerLinux AT gmail DOT com**
+- **[My Google Plus Site](https://plus.google.com/+ReinaldoMartinez)**
+- **[My Github Site](https://github.com/tigerlinux)**
+- **[My Linkedin Profile - English](https://ve.linkedin.com/in/tigerlinux/en)**
+- **[My Linkedin Profile - Spanish](https://ve.linkedin.com/in/tigerlinux/es)**
 
 
 ## About SOLR and FULL TEXT SEARCH (FTS)

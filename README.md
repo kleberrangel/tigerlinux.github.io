@@ -35,3 +35,18 @@ After working in several companies in my country (Venezuela) and two internation
 Then that's it !. Remember I'm gradually translating and adapting to markdown format everything I have in my private files so It will take me some time to have every and each recipe here. Meanwhile, stay tuned to this site, and to my blog at [http://tigerlinuxblog.wordpress.com.](http://tigerlinuxblog.wordpress.com "My Wordpress Blog")
 
 Enjoy !!!
+
+**Reinaldo Martínez P.**
+
+**Caracas, Venezuela:**
+
+**TigerLinux AT gmail DOT com**
+
+**[My Google Plus Site](https://plus.google.com/+ReinaldoMartinez)**
+
+**[My Github Site](https://github.com/tigerlinux)**
+
+**[My Linkedin Profile - English](https://ve.linkedin.com/in/tigerlinux/en)**
+
+**[My Linkedin Profile - Spanish](https://ve.linkedin.com/in/tigerlinux/es)**
+

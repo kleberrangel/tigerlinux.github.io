@@ -1,5 +1,13 @@
 # LAB: AN OPENSTACK MITAKA CLOUD WITH CEPH RADOS STORAGE BACKEND USING UBUNTU 14.04LTS - PART 2: OPENSTACK MITAKA CONFIGURATION FOR CEPH USAGE.
 
+- **By Reinaldo Martínez P.**
+- **Caracas, Venezuela.**
+- **TigerLinux AT gmail DOT com**
+- **[My Google Plus Site](https://plus.google.com/+ReinaldoMartinez)**
+- **[My Github Site](https://github.com/tigerlinux)**
+- **[My Linkedin Profile - English](https://ve.linkedin.com/in/tigerlinux/en)**
+- **[My Linkedin Profile - Spanish](https://ve.linkedin.com/in/tigerlinux/es)**
+
 
 ## What we want to acomplish ?:
 
