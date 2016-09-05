@@ -1,4 +1,4 @@
-# AN ASTERISK BASED VOIP GATEWAY SUPPORTING MFC-R2 PROTOCOL ON CENTOS 6
+# AN ASTERISK BASED VOIP GATEWAY SUPPORTING MFC-R2 PROTOCOL ON CENTOS 7
 
 - **By Reinaldo Martínez P.**
 - **Caracas, Venezuela.**
@@ -16,7 +16,7 @@ Create a VoIP gateway, asterisk based, with MFCR2 support.
 
 ## Where are we going to install it ?:
 
-A physical server with asterisk-supported telephony card, Centos 6 (32 or 64 bits), EPEL repository installed, SELINUX and IPTABLES Firewall disabled. 
+A physical server with asterisk-supported telephony card, Centos 7, EPEL repository installed, SELINUX and FIREWALLD Firewall disabled. 
 
 
 ## How we constructed the whole thing ?:
@@ -26,27 +26,27 @@ A physical server with asterisk-supported telephony card, Centos 6 (32 or 64 bit
 
 Install EPEL (if you did'nt already) and perform a full update:
 
-```
-rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+```bash
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 yum clean all
 yum -y update
 ```
 
-Ensure SELINUX and IPTABLES are disabled:
+Ensure SELINUX and FIREWALLD are disabled:
 
-```
+```bash
 setenforce 0
 sed -r -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 sed -r -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
 
-chkconfig iptables off
-/etc/init.d/iptables stop
+systemctl stop firewalld
+systemctl disable firewalld
 ```
 
 Then, reboot your server:
 
-```
+```bash
 reboot
 ```
 
@@ -54,25 +54,26 @@ reboot
 
 Now, we are going to install some dependencies:
 
-```
-yum groupinstall core
-yum groupinstall base
+```bash
+yum -y groupinstall core
+yum -y groupinstall base "Development Tools"
 
-yum install gcc gcc-c++ lynx bison mysql-devel mysql-server php php-mysql php-pear php-mbstring \
-tftp-server httpd make ncurses-devel libtermcap-devel sendmail sendmail-cf caching-nameserver \
-sox newt-devel libxml2-devel libtiff-devel audiofile-devel gtk2-devel subversion kernel-devel \
-git subversion kernel-devel php-process crontabs cronie cronie-anacron doxygen \
-kernel-headers-`uname -r` kernel-devel-`uname -r` glibc-headers sqlite sqlite-devel \
-ntp ntpdate php-digium_register cpp make automake autoconf
-
-yum install php-pear-MDB2 php-pear-MDB2-Driver-mysql php-pear-MDB2-Driver-mysqli php-pear-DB
+yum -y install gcc gcc-c++ lynx bison mariadb-devel mariadb-server mariadb-libs mariadb \
+php php-mysql php-pear php-mbstring tftp-server httpd make ncurses-devel libtermcap-devel \
+sendmail sendmail-cf caching-nameserver sox newt-devel libxml2-devel libtiff-devel \
+audiofile-devel gtk2-devel subversion kernel-devel git subversion kernel-devel php-process \
+crontabs cronie cronie-anacron doxygen kernel-headers-`uname -r` kernel-devel-`uname -r` \
+glibc-headers sqlite sqlite-devel ntp ntpdate cpp make automake autoconf php-pear-MDB2 \
+php-pear-MDB2-Driver-mysql php-pear-MDB2-Driver-mysqli php-pear-DB perl-DBD-MySQL \
+python python-devel texinfo uuid uuid-devel libuuid libuuid-devel jansson jansson-devel \
+gmime-devel gmime
 ```
 
 Some of those dependencies would only be needed if later you decide to include FreePBX in your gateway (like mysql and httpd).
 
 More dependencies:
 
-```
+```bash
 cd /usr/local/src/
 git clone https://github.com/meduketto/iksemel
 
@@ -86,44 +87,43 @@ make install
 cd /
 ```
 
-We ensure NTP is active and tunning:
+We ensure NTP is active and running (disable chrony... for now):
 
+```bash
+systemctl stop chrony
+systemctl disable chrony
+systemctl enable ntpdate
+systemctl enable ntpd
+systemctl stop ntpd
+systemctl start ntpdate
+systemctl start ntpd
 ```
-chkconfig ntpdate on
-chkconfig ntpd on
-service ntpd stop
-service ntpdate start
-service ntpd start
-```
 
-### OPTIONAL: MySQL configuration
+**NOTE: You are free to let ntp/ntpdate out of the picture if you prefer chrony instead of good-old ntp/ntpdate combo. It's completelly up to you**
 
-If you plan to use MySQL for CDR storage, or for other reasons (FreePBX backend), then proceed to configure it and activate it:
 
-```
-chkconfig mysqld on
-service mysqld start
+### OPTIONAL: MariaDB configuration
+
+If you plan to use MariaDB for CDR storage, or for other reasons (FreePBX backend), then proceed to configure it and activate it:
+
+```bash
+systemctl enable mariadb
+systemctl start mariadb
 
 /usr/bin/mysqladmin -u root password 'P@ssw0rd'
 ```
 
-Create the file: `/root/.my.cnf`
+Create the file: `/root/.my.cnf`:
 
-```
-vim /root/.my.cnf
-```
-
-With the content:
-
-```
-[client]
-user=root
-password=P@ssw0rd
+```bash
+echo "[client]" > /root/.my.cnf
+echo "user=root" >> /root/.my.cnf
+echo "password=P@ssw0rd" >> /root/.my.cnf
 ```
 
-Save the file and change its mode:
+And change its mode:
 
-```
+```bash
 chmod 0400 /root/.my.cnf
 ```
 
@@ -134,38 +134,38 @@ chmod 0400 /root/.my.cnf
 
 We are going to install asterisk and r2 components from source so firs, we download the sources:
 
-```
+```bash
 mkdir /workdir
 cd /workdir
 wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
 wget http://downloads.asterisk.org/pub/telephony/libpri/libpri-current.tar.gz
-wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
+wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz
 wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openr2/openr2-1.3.3.tar.gz
 ```
 
 Un-compress all files:
 
-```
+```bash
 tar -xzvf dahdi-linux-complete-current.tar.gz -C /usr/local/src/
 tar -xzvf libpri-current.tar.gz -C /usr/local/src/
-tar -xzvf asterisk-11-current.tar.gz -C /usr/local/src/
+tar -xzvf asterisk-13-current.tar.gz -C /usr/local/src/
 tar -xzvf openr2-1.3.3.tar.gz -C /usr/local/src/
 ```
 
 Proceed to compile and install dahdi:
 
-```
+```bash
 cd /usr/local/src/dahdi-linux-complete-*
 make all
 make install
 make config
-
+cp /usr/local/src/dahdi-linux-complete-*/tools/dahdi.init /etc/init.d/dahdi
 cd /
 ```
 
 Proceed to compile and install libopenr2:
 
-```
+```bash
 cd /usr/local/src/openr2-*
 ./configure --prefix=/usr
 make
@@ -176,7 +176,7 @@ cd /
 
 Proceed to compile and install libpri:
 
-```
+```bash
 cd /usr/local/src/libpri-*
 make
 make install
@@ -186,188 +186,167 @@ cd /
 
 Then, proceed to compile and install Asterisk:
 
-**NOTE: Ensure to select on the "make menuselect" stage all needed options, specially, languaje core/extra sounds you should need. Also, you would like to include app_meetme, app_confbridge and res_config_mysql if you plan to include FreePBX later**
 
-
-```
+```bash
 cd /usr/local/src/asterisk-*
-./configure
+./contrib/scripts/install_prereq install
+./configure --with-pjproject-bundled
+ldconfig -v
 ./contrib/scripts/get_mp3_source.sh
-make menuselect
+make menuselect.makeopts
+menuselect/menuselect --enable-category MENUSELECT_ADDONS \
+--enable format_mp3 \
+--enable res_config_mysql \
+--enable app_mysql \
+--enable cdr_mysql \
+--enable app_meetme \
+--enable MOH-OPSOUND-GSM \
+--enable CORE-SOUNDS-EN-GSM \
+--enable CORE-SOUNDS-ES-GSM \
+--enable EXTRA-SOUNDS-EN-GSM
 make
+make addons
 make install
+make addons-install
 make config
 make progdocs
-```
-
-If for some reason you forgot to include the sounds, you can include now. Those lines download and install english and spanish sounds:
-
-```
-cd /var/lib/asterisk/sounds
-wget http://downloads.asterisk.org/pub/telephony/sounds/asterisk-extra-sounds-en-gsm-current.tar.gz
-wget http://downloads.asterisk.org/pub/telephony/sounds/asterisk-core-sounds-es-gsm-current.tar.gz
-wget http://downloads.asterisk.org/pub/telephony/sounds/asterisk-core-sounds-en-gsm-current.tar.gz
-
-tar -xzvf asterisk-core-sounds-en-gsm-current.tar.gz -C ./en/
-tar -xzvf asterisk-extra-sounds-en-gsm-current.tar.gz -C ./en/
-
-tar -xzvf asterisk-extra-sounds-en-gsm-current.tar.gz -C ./es/
-tar -xzvf asterisk-core-sounds-es-gsm-current.tar.gz -C ./es/
-
-rm -rf *.tar.gz
+cd /
+ldconfig -v
 ```
 
 Then we proceed to copy the sample config files:
 
-```
-cp /usr/local/src/asterisk-11*/configs/* /etc/asterisk/
+```bash
+cp /usr/local/src/asterisk-13*/configs/samples/* /etc/asterisk/
 cd /etc/asterisk/
 for i in `ls`;do echo $i;mv $i `echo $i|sed 's/.sample//'`;done
+cd /
 ```
 
 We need to create an asterisk user:
 
-```
+```bash
 adduser -M -c "Asterisk User" -d /var/lib/asterisk/ asterisk
 ```
 
 And setup permissions for asterisk and this user:
 
-```
+```bash
 chown asterisk. /var/run/asterisk
 chown -R asterisk. /etc/asterisk
 chown -R asterisk. /var/{lib,log,spool}/asterisk
 chown -R asterisk. /usr/lib/asterisk
 ```
 
-Proceed to modify the following file:
+Set the "sysconfig" file for asterisk (previouslly backup the original):
 
-```
-vi /etc/sysconfig/asterisk
-```
-And set the user and group to the asterisk user/group previouslly created:
-
-```
-AST_USER="asterisk"
-AST_GROUP="asterisk"
+```bash
+cp /etc/sysconfig/asterisk /etc/sysconfig/asterisk-ORIGINAL-DONTERASE
+echo "AST_USER=\"asterisk\"" > /etc/sysconfig/asterisk
+echo "AST_GROUP=\"asterisk\"" >> /etc/sysconfig/asterisk
 ```
 
-We save the file, and modify the next one:
+Also, run the following command in order to "force" safe_asterisk to run asterisk with the user/group "asterisk/asterisk". Note that this seems to be now redundant on asterisk 13. See the note bellow:
 
-```
-vi /usr/sbin/safe_asterisk
-```
-
-Near the line 116, we need to modify the **"astargs"** variable in order to include the asterisk user and group:
-
-```
-ASTARGS="-U asterisk -G asterisk "
+```bash
+sed -r -i 's/ASTARGS\=\"\"/ASTARGS\=\"-U\ asterisk\ -G\ asterisk\ \"/g' /usr/sbin/safe_asterisk
 ```
 
-Save the file and run the following command:
+**NOTE: The last "patch" seems to be unnecesary on asterisk 13. Apply it if you see your "asterisk" not running with the proper user/group**
 
-```
+Run the following command:
+
+```bash
 ldconfig -v
 ```
 
 Proceed to set on autostart the following services:
 
-```
-chkconfig dahdi on
-chkconfig asterisk on
+```bash
+systemctl enable dahdi
+systemctl enable asterisk
 ```
 
 Create the following files:
 
-```
+```bash
 echo "" > /etc/asterisk/sip_custom.conf
 echo "" > /etc/asterisk/extensions_custom.conf
 ```
 
-At the end of file `/etc/asterisk/sip.conf` add the following file:
+At the end of file `/etc/asterisk/sip.conf` add the following line (by running the command bellow):
 
-```
-#include sip_custom.conf
+```bash
+echo "#include sip_custom.conf" >> /etc/asterisk/sip.conf
 ```
 
-At the end of file `/etc/asterisk/extensions.conf` add the following file:
+At the end of file `/etc/asterisk/extensions.conf` add the following file (by running the command bellow):
 
-```
-#include extensions_custom.conf
+```bash
+echo "#include extensions_custom.conf" >> /etc/asterisk/extensions.conf
 ```
 
 Proceed to reset the permissions:
 
-```
-chown -R asterisk. /etc/asterisk
+```bash
+chown -R asterisk.asterisk /etc/asterisk
 ```
 
 Start dahdi:
 
-```
+```bash
 dahdi_genconf
 /etc/init.d/dahdi start
 ```
 
-We reset dahdi devices permissions:
+Reset dahdi devices permissions:
 
-```
+```bash
 chown -R asterisk.asterisk /dev/dahdi
 ```
 
-Proceed to execute the command:
+Please stop a moment here. The "dahdi_genconf" command will create the following files:
 
-```
-dahdi_genconf
-```
 
-This command will detect and configure the dahdi sub-system and it's related files:
-
-```
+```bash
 /etc/dahdi/system.conf
 /etc/asterisk/chan_dahdi.conf
 /etc/asterisk/dahdi-channels.conf
 ```
 
-And the following files can be used by you for yous customized SIP Devices and Dialplans:
+You must modify those files in order to set your "correct" configuration, specially if you are going to use MFC-R2. Also, set your SIP accounts/trunks in sip_custom.conf and dialplan/extensions on extensions_custom.conf:
 
-```
+```bash
 /etc/asterisk/sip_custom.conf
 /etc/asterisk/extensions_custom.conf
 ```
 
-In order to allow the configuration to be active, proceed to restart dahdi and asterisk:
+In order to allow the configuration to be active, proceed to restart dahdi and start asterisk:
 
-```
+```bash
 /etc/init.d/dahdi restart
 /etc/init.d/asterisk start
 ```
 
 Now, it's time to create our log rotate in order to keep our logs at bay !:
 
-```
-vi /etc/logrotate.d/asterisk
-```
-
-With the contents:
-
-```
-/var/log/asterisk/messages
-/var/log/asterisk/queue_log
-/var/log/asterisk/cdr-csv/Master.csv
-{
-        missingok
-        rotate 5
-        daily
-        create 0640 asterisk asterisk
-        compress
-        postrotate
-                /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
-        endscript
-}
+```bash
+echo "/var/log/asterisk/messages" > /etc/logrotate.d/asterisk
+echo "/var/log/asterisk/queue_log" >> /etc/logrotate.d/asterisk
+echo "/var/log/asterisk/cdr-csv/Master.csv" >> /etc/logrotate.d/asterisk
+echo "{" >> /etc/logrotate.d/asterisk
+echo -e "\tmissingok" >> /etc/logrotate.d/asterisk
+echo -e "\trotate 5" >> /etc/logrotate.d/asterisk
+echo -e "\tdaily" >> /etc/logrotate.d/asterisk
+echo -e "\tcreate 0640 asterisk asterisk" >> /etc/logrotate.d/asterisk
+echo -e "\tcompress" >> /etc/logrotate.d/asterisk
+echo -e "\tpostrotate" >> /etc/logrotate.d/asterisk
+echo -e "\t\t/usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null" >> /etc/logrotate.d/asterisk
+echo -e "\tendscript" >> /etc/logrotate.d/asterisk
+echo "}" >> /etc/logrotate.d/asterisk
 ```
 
-Save the file and we are ready to go. A Gateway is ready to work. In the following section, I'll show you an R2 configuration example.
+We are ready to go. A Gateway is ready to work. In the following section, I'll show you an R2 configuration example.
 
 
 ### A typical MFC-R2 configuration example.
@@ -384,7 +363,7 @@ First: Dahdi: We need to reconfigure `/etc/dahdi/system.conf` file with the prop
 
 file `/etc/dahdi/system.conf`:
 
-```
+```bash
 # Autogenerated by /usr/sbin/dahdi_genconf on Fri Sep 18 12:07:11 2015
 # If you edit this file and execute /usr/sbin/dahdi_genconf again,
 # your manual changes will be LOST.
@@ -429,7 +408,7 @@ here, the channels are changed to "cas" with bits: 1101 and hdb3 line coding, no
 
 After those changes we of course need to restart dahdi:
 
-```
+```bash
 /etc/init.d/dahdi restart
 ```
 
@@ -437,7 +416,7 @@ Now, we need to configure asterisk with R2. First file to change:
 
 File: `/etc/asterisk/chan_dahdi.conf`:
 
-```
+```bash
 [trunkgroups]
 [channels]
 language=es
@@ -471,7 +450,7 @@ Second file to change (and the most important one):
 
 File: `/etc/asterisk/dahdi-channels.conf`:
 
-```
+```bash
 ; Span 1
 ; Inbound
 group=2
@@ -545,7 +524,7 @@ channel => 94-108,110-124
 
 After changing both files, proceed to restart your asterisk:
 
-```
+```bash
 /etc/init.d/asterisk restart
 ```
 

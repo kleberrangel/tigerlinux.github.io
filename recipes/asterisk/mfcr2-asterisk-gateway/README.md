@@ -1,4 +1,4 @@
-# AN ASTERISK BASED VOIP GATEWAY SUPPORTING MFC-R2 PROTOCOL ON CENTOS 6
+# AN ASTERISK BASED VOIP GATEWAY SUPPORTING MFC-R2 PROTOCOL ON CENTOS (6 AND 7)
 
 - **By Reinaldo Martínez P.**
 - **Caracas, Venezuela.**
@@ -24,11 +24,11 @@ The recipe is using OpenSource software. Nothing here is licensed so you can rep
 
 ## What kind of hardware and software you need ?.
 
-This is aimed to production, so I pass the "testing" recomendations: You need a bare metal !. A physical server. Also you need a telephony card, fully compatible with asterisk/dahdi and with Centos 6 support. Why don't we use Centos 7 ??.. You can: But I recommend to keep Centos 6 as first option. Not all drivers are still fully tested on C-7.
+This is aimed to production, so I pass the "testing" recomendations: You need a bare metal !. A physical server. Also you need a telephony card, fully compatible with asterisk/dahdi and with Centos 6 and 7 support.
 
 About the software: You'll need a machine with the following software requeriments:
 
-* Centos 6 (32 or 64) fully updated.
+* Centos 6 (32 or 64 bits) fully updated, or Centos 7 (64 bits) fully updated.
 * EPEL Repository installed. For EPEL install instruction see: https://fedoraproject.org/wiki/EPEL.
 
 
@@ -41,5 +41,6 @@ About the software: You'll need a machine with the following software requerimen
 
 ## What files you'll find here ?:
 
-* [RECIPE-gateway-asterisk-R2-Centos6.md: Our recipe, in markdown format.](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/asterisk/mfcr2-asterisk-gateway/RECIPE-gateway-asterisk-R2-Centos6.md "Our Asterisk R2 VoIP Gateway Recipe")
+* [RECIPE-gateway-asterisk-R2-Centos6.md: Our recipe, in markdown format, for Centos 6.](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/asterisk/mfcr2-asterisk-gateway/RECIPE-gateway-asterisk-R2-Centos6.md "Our Asterisk R2 VoIP Gateway Recipe")
+* [RECIPE-gateway-asterisk-R2-Centos6.md: Our recipe, in markdown format, for Centos 7.](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/asterisk/mfcr2-asterisk-gateway/RECIPE-gateway-asterisk-R2-Centos7.md "Our Asterisk R2 VoIP Gateway Recipe")
 
