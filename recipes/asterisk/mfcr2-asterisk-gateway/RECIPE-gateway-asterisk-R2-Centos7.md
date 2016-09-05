@@ -295,8 +295,9 @@ chown -R asterisk.asterisk /etc/asterisk
 Start dahdi:
 
 ```bash
-dahdi_genconf
 /etc/init.d/dahdi start
+dahdi_genconf
+/etc/init.d/dahdi restart
 ```
 
 Reset dahdi devices permissions:
