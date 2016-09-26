@@ -45,7 +45,7 @@ docker run --name mymariadb -e MYSQL_ROOT_PASSWORD="P@ssw0rd" -p 127.0.0.1:3306:
 **Database creation commands:**
 
 ```bash
-mysql
+mysql -h 127.0.0.1 -u root -p"P@ssw0rd"
 
 MariaDB [(none)]> CREATE DATABASE mydb CHARACTER SET utf8 COLLATE utf8_general_ci;
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON mydb.* TO 'mydbuser'@'%' IDENTIFIED BY 'P@ssw0rd' WITH GRANT OPTION;
