@@ -1,24 +1,30 @@
 #!/bin/bash
 #
-# Script para autoconfiguracion de personalidad del servidor
+# Hostname autoconfiguration script based on DNS ptr (in-addr.arpa record)
 #
+# This script will try to determine the server IP, then query the DNS's servers
+# in order to find the IP in-addr.arpa (PTR) records, which normally points to
+# the hostname, then, set the hostname in the server with the data obtained in
+# the dns query.
 #
-# Para uso en: Centos 5, Centos 6, Debian 6 y Debian 7
+# To be used with: Centos 5, 6, 7, All Fedoras, CoreOS, FreeBSD, Debians and
+# Ubuntuses !!.
 # Reynaldo R. Martinez P.
-# TigerLinux@gmail.com
+# TigerLinux AT Gmail DOT Com
+# Caracas, Venezuela.
 #
 
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
-# Secuencias
-# 1.- Determinar que S/O: Debian, Centos o RHEL, Unknown
-# 2.- Determinar la IP (si es que no hay solo localhost)
-# 3.- Determinar el nombre basado en la IP
-# 4.- Cambiar el hostname basado en la IP
-# 5.- Actualizar el archivo /etc/hosts
+# This what the scripts does:
+# 1.- Check in which O/S are we running.
+# 2.- Try to get our IP.
+# 3.- Query DNS based on the located IP.
+# 4.- Change our hostname, based on the IP and Hostname found
+# 5.- Change oour /etc&/hosts, based on the IP and Hostname found
 
 
-# Se determina el S/O. Si no es centos o debian se aborta el proceso
+# Stage 1: Check in which O/S are we running !.
 
 OSFlavor='unknown'
 
@@ -65,16 +71,8 @@ PUPPETSERVER=""
 IPADDRESS=""
 MYFQDN=""
 
-# Si existe el archivo de configuracion manual, se hace el source
-# Este archivo puede contener los siguientes parametros
-#
-# NETWORK=x.y.z - Hace que el script verifique la IP existente en dicha red
-# INTERFACE=ethX - Hace que el script verifique la IP existente en dicha interfaz
-# RUNPUPPET=yes|no - Si RUNPUPPET=yes el script tratara de ejecutar el cliente puppet
-# PUPPETSERVER=servidor - Obligatorio si se usa RUNPUPPET=yes - servidor PUPPET
-# FIRSTRUNONLY=yes|no - Si es YES solo se ejecutara una vez y creara un archivo 
-#                       llamado /etc/autoconfig-server-alreadyran.txt para prevenir
-#                       futuras re-ejecuciones.
+# If we have our autoconfig file, normally: /etc/autoconfig-server-options.conf,
+# we proceed to parse some options from it. See the readme for more info.
 
 if [ -f $autoconfigoptionsfile ]
 then
@@ -139,7 +137,7 @@ fi
 
 echo "My FQDN is: $MYFQDN"
 
-# Aqui empezamos a escribir cosas.
+# Here we begin to make changes
 
 case $OSFlavor in
 redhat-based|centos-based)
@@ -237,6 +235,6 @@ then
 	echo ""
 fi
 
-# END Script secuence
+# END
 
 
