@@ -153,4 +153,9 @@ Please note the following for each O/S if you want to have your own mirror infra
 Finally, if you want to create your own cloud-init-based-to-be-used-with-openstack templates, remember: DO NOT use lvm if you intend to use the auto-resize options in your openstack instances. Also, try to stick with EXT4 in "at least" "/boot" and "/" partitions. You can use other filesystems in your secondary disks, but, for the primary-root-disk, use ext4 !.
 
 
+## Software-RAID Templates.
+
+Along the templates for LVM, you'll find some software-raid-lvm templates too. Those are hard-coded with sda/sdb, so, if your device mapping is different, clone the repo and make your own adjustments.
+
+
 End.-
