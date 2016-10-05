@@ -509,6 +509,8 @@ mkdir -p /workdir/redmine
 
 cd /var/www/redmine/plugins/
 git clone https://github.com/paginagmbh/redmine_lightbox2.git
+cd /var/www/redmine/plugins/redmine_lightbox2/
+git checkout tags/v0.2.7
 cd /var/www/redmine
 RAILS_ENV=production rake redmine:plugins:migrate
 /etc/init.d/thin restart
@@ -579,7 +581,7 @@ Save the file and run:
 cd /var/www/redmine
 gem install rdoc
 gem install rdoc-data
-rdoc-data install
+rdoc-data --install --verbose
 ```
 
 Again, we need to include a GEM in our Gemfile: 
