@@ -634,6 +634,7 @@ Then:
 ```bash
 cd /var/www/redmine
 bundle update rails
+bundle update
 bundle install --without postgresql sqlite test development
 bundle pack
 bundle install --path vendor/cache
