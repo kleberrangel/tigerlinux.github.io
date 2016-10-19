@@ -24,7 +24,7 @@ Anyway, time ago when I learned C/C++, I constructed and documented exercises go
 You'll see here two main directories:
 
 - **CORE:** This include about 67 exercises convering everything from python core programming, to things more complex like descriptors, decorators and metaclasses. The exercises are quite simple really, and, with a lot of inline comments in order to explain things the most easy way I could find. Some of the exercises are based on things I've found on Internet or python books I've used to teach myself (the same I did years ago when I learned C/C++). This section is already completed, but If I find more basic things that I consider can help others to learn, I'll include here too.
-- **SPECIAL:** This is a constant/ongoing work-in-progress, that will cover more special (and advanced and real-life) cases of python usage... things like tkinter, sqlalchemy, access to message brokers (rabbit/redis), etc.
+- **SPECIAL:** This is a constant/ongoing work-in-progress, that will cover more special (and advanced and real-life) cases of python usage... things like tkinter, sqlalchemy, AWS with Botocore, access to message brokers (rabbit/redis), etc.
 
 Then, our directories here:
 
