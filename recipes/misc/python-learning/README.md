@@ -26,9 +26,13 @@ You'll see here two main directories:
 - **CORE:** This include about 67 exercises convering everything from python core programming, to things more complex like descriptors, decorators and metaclasses. The exercises are quite simple really, and, with a lot of inline comments in order to explain things the most easy way I could find. Some of the exercises are based on things I've found on Internet or python books I've used to teach myself (the same I did years ago when I learned C/C++). This section is already completed, but If I find more basic things that I consider can help others to learn, I'll include here too.
 - **SPECIAL:** This is a constant/ongoing work-in-progress, that will cover more special (and advanced and real-life) cases of python usage... things like tkinter, sqlalchemy, AWS with Botocore, access to message brokers (rabbit/redis), etc.
 
+## If I don't want or I can't run the scripts, did you included sample outputs ?:
+
+Yes... for almost all the scripts you'll find a "sample-output.txt" file with the actual output produced by the script. Some exceptions apply, like the tkinter exercises and some interactive scripts.
+
 Then, our directories here:
 
 * [PYTHON CORE PROGRAMMING EXERCISES](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/misc/python-learning/CORE "Python CORE Programming exercises")
 * [PYHTON SPECIAL CASES](https://github.com/tigerlinux/tigerlinux.github.io/blob/master/recipes/misc/python-learning/SPECIAL "Python SPECIAL Programming cases")
 
-
+END.-
