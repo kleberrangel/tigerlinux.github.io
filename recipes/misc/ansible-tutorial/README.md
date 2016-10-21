@@ -48,7 +48,7 @@ Also, we'll install crudini in order to ease our ansible configuration:
 yum -y install crudini
 ```
 
-**NOTE: Crudini is also parte of EPEL repo.**
+**NOTE: Crudini is also part of EPEL repo.**
 
 With ansible installed, let's do a simple test of "ping":
 
@@ -318,7 +318,7 @@ In any of the 3 servers you can see the file:
 HELLO WORLD
 ```
 
-If you run the command `ansible-playbook ~/helloworld.yaml` again, the parte where "changed=1" it will change to "changed=0" as the file is already there and with the desired contents. Ansible is said to be [**"idempotent"**](https://en.wikipedia.org/wiki/Idempotence), meaning that it will not change anything unless really needed !. If the change was done the first time in the file, and following runs of the playbook determine the file is the same and does not need to be re-edited again, then it will not be touched !.
+If you run the command `ansible-playbook ~/helloworld.yaml` again, the part where "changed=1" it will change to "changed=0" as the file is already there and with the desired contents. Ansible is said to be [**"idempotent"**](https://en.wikipedia.org/wiki/Idempotence), meaning that it will not change anything unless really needed !. If the change was done the first time in the file, and following runs of the playbook determine the file is the same and does not need to be re-edited again, then it will not be touched !.
 
 Let's do something more complex now. We'll ensure the install of software here (namely, apache), but, we need to ensure the environment of the server in order to use the right installation module (apt or yum). Remember the ansible_ variables returned by the setup module ??.. See this:
 
