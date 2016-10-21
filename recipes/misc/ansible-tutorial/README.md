@@ -280,8 +280,8 @@ containing:
 
 Explanation:
 
-- The "hosts2 section includes the group which we will apply the playbook (defined in /etc/ansible/hosts). The user, become and become_method options instruct ansible to use the "ansible" account we previously created, and become root with sudo.
-- The "vars" section defines variables that we are going to use in our playbook. In our file, we are asigned the "HELLO WORLD" string to the "hello_message" variable.
+- The "hosts" section includes the group where we are going to apply the playbook (defined in /etc/ansible/hosts). The user, become and become_method options instruct ansible to use the "ansible" account we previously created, and become root with sudo.
+- The "vars" section defines variables that we are going to use in our playbook. In our file, we asigned the "HELLO WORLD" string to the "hello_message" variable.
 - The "tasks" section create the tasks we are going to execute on the remote machine. For our example, we are using the "copy" module, with destionation file "/etc/hello-world.txt", containing the text indicated on the "hello_message" variable.
 
 Next, exec the playbook:
@@ -318,9 +318,9 @@ In any of the 3 servers you can see the file:
 HELLO WORLD
 ```
 
-If you run the command `ansible-playbook ~/helloworld.yaml` again, the part where "changed=1" it will change to "changed=0" as the file is already there and with the desired contents. Ansible is said to be [**"idempotent"**](https://en.wikipedia.org/wiki/Idempotence), meaning that it will not change anything unless really needed !. If the change was done the first time in the file, and following runs of the playbook determine the file is the same and does not need to be re-edited again, then it will not be touched !.
+If you run the command `ansible-playbook ~/helloworld.yaml` again, the part where "changed=1" will change to "changed=0" as the file is already there and with the desired contents. Ansible is said to be [**"idempotent"**](https://en.wikipedia.org/wiki/Idempotence), meaning that it will not change anything unless really needed !. If the change was done the first time in the file, and following runs of the playbook determine the file is the same and does not need to be re-edited again, then it will not be touched !.
 
-Let's do something more complex now. We'll ensure the install of software here (namely, apache), but, we need to ensure the environment of the server in order to use the right installation module (apt or yum). Remember the ansible_ variables returned by the setup module ??.. See this:
+Let's do something more complex now. We'll ensure the install of software here (namely, apache), but, we need to know the environment of the server in order to use the right installation module (apt or yum). Remember the ansible_ variables returned by the setup module ??.. See this:
 
 ```bash
 ansible 192.168.1.230 -b -m setup|grep ansible_os_family
@@ -439,7 +439,7 @@ Oct 21 12:28:38 server-232.stack.gatuvelus.home systemd[1]: Started LSB: Apache2
 Hint: Some lines were ellipsized, use -l to show in full.
 ```
 
-Now, let's extend more our webserver template and include other packages, and the concept of loopingm and, use multiple conditionals (you'll see why). Edit the template:
+Now, let's extend more our webserver template and include other packages. Also, lets explore the concept of looping and, use multiple conditionals (you'll see why). Edit the template:
 
 ```bash
 vi ~/webserver.yaml
@@ -488,7 +488,7 @@ And change it to:
       when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16"
 ```
 
-Also, let's include on the hosts file our two other servers in the webservers group:
+Let's include on the hosts file our two other servers in the webservers group:
 
 ```bash
 echo "192.168.1.230" >> /etc/ansible/hosts
@@ -502,7 +502,7 @@ Then, run the playbook:
 ansible-playbook ~/webserver.yaml 
 ```
 
-The playbook will install the needed software on all 3 machines. We changed the "when" statement in order to correctly install the "mod-php" package, due the fact that the package name in debian 8 is different than the name in ubuntu 16. Conditionals in ansible works like in other languages... and/or/etc. Also, we demostrated the use of a loop. The "{{ item }}" and "with_items:" combo is the basic contruct for looping in ansible.
+The playbook will install the needed software on all 3 machines. We changed the "when" statement in order to correctly install the "mod-php" package due the fact that the package name in debian 8 is different than the name in ubuntu 16. Conditionals in ansible works like in other languages... and/or/etc. Also, we demostrated the use of a loop. The "{{ item }}" and "with_items:" combo is the basic contruct for looping in ansible.
 
 While we wanted to show the use of looping, we really don't need it for yum/apt modules as we can use a list. Also, we'll introduce here the statemens for service startup/enabling and the handlers concept. Let's change our webserver playbook:
 
@@ -593,7 +593,7 @@ And change it to:
           restarted
 ```
 
-This demostrate in more "production and practical" terms the way to ensure our packages are installed and the services are running. Also, note that we changed "installed" by "latest", ensuring the last updated version will be always installed/updated. When the package is updated, the "notify" section triggers an action the call the "handlers" section with the specific name, then executes the action.
+This demostrate in more "production and practical" terms the way to ensure our packages are installed and the services are running. Also, note that we changed "installed" by "latest", ensuring the last updated version will be always installed/updated. When the package is updated, the "notify" section triggers an action to call the "handlers" section with the specific name, then executes the action, for this example, a service reload !.
 
 In other words... if our package is upgraded (httpd or apache2), a call to the respective handler is sent in order to ensure the service is restarted.
 
@@ -602,7 +602,7 @@ In other words... if our package is upgraded (httpd or apache2), a call to the r
 
 Ansible can organize the playbooks and related files (we'll also introduce some "templates" and "includes" here) in a directory structure which defines "roles" for our servers.
 
-In order to use roles, we need to create a "role" directory for every role we want. Those subdirs must be located under the /etc/ansible/roles directory, and should contain the following directories inside: files, handlers, meta, tasks, templates, and vars. For our LAB, we creaeted the roles "common" and "webserver":
+In order to use roles, we need to create a "role" directory for every role we want. Those subdirs must be located under the /etc/ansible/roles directory, and should contain the following directories inside: files, handlers, meta, tasks, templates, and vars. For our LAB, we created the roles "common" and "webserver":
 
 ```bash
 .
@@ -989,7 +989,9 @@ ansible-playbook /etc/ansible/roles/site01.yml
 
 Your new "site01.yml" playbook will execute all tasks/files/templates from the "common" role first, then "webserver" role second.
 
-Note that you can still extend this as much as you want and include other roles, with more and more variables, and even set your own variables at role creation.
+Our web servers will have an index file, and, another html (http://SERVER/server-extra-info.html) showing the server FQDN and MAC address.
+
+Note that you can still extend this as much as you want and include other roles, with more and more variables and modules, and even set your own variables at role creation inside the site01.yml file.
 
 
 ## Ok.. what now ??
