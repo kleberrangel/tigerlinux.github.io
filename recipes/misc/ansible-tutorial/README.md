@@ -1009,4 +1009,7 @@ And also, the online documentation is at:
 - [Ansible Online Documentation.](http://docs.ansible.com/)
 - [Ansible Module Documentation Index.](http://docs.ansible.com/ansible/modules_by_category.html)
 
+**NOTE: All files used in this tutorial are included here. You'll find them in the ansible directory.**
+
+
 END.-
