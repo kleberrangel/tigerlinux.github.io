@@ -404,7 +404,7 @@ python-apt python-debian python-apt-common python-chardet \
 python-chardet-whl python-cheetah python-pip python-cheetah
 ```
 
-**NOTE: Probably you are asking to yourself... how did I knew that some python dependencies where missing in the .67 node ?.. is TigerLinux using some kind of Black Magic too ??. Totally not. Just I observed the mariadb app log in /var/log/juju. The error was very specific about a missing module name in a charm file. Then just compared the installed python packages beteen node 64, where the mariadb-master is, and node 67, where mariadb-slave is. That's all. Nothing is perfect on the IT world.** 
+**NOTE: Probably you are asking to yourself... how did I knew that some python dependencies where missing in the .67 node ?.. is TigerLinux using some kind of Black Magic too ??. Totally not. Just I observed the mariadb app log in /var/log/juju. The error was very specific about a missing module name in a charm file. Then just compared the installed python packages between node 64, where the mariadb-master is, and node 67, where mariadb-slave is. That's all. Nothing is perfect on the IT world.** 
 
 After you see that the status of both the master and slave are OK, set the master/slave relation:
 
