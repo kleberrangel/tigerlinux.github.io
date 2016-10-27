@@ -13,34 +13,34 @@
 
 A tale of the genesis... I.T. versioned !.
 
-- "In the first day of the technological creation, IT goods created the baremetal server. They gave the server an Operating System with seas of ram, lands of hard disk space, winds of devices, and a sun of cpu cicles giving life to everything... then the gods observed their creation and all was good... for a time."
-- "In the second day of the technological creation, IT goods created the monolitic applications. Those applications spawned trough all the garden of O/S edens using resources in disordered ways... and for a little time, it was good as there was plenty of resources to use and abuse.."
+- "In the first day of the technological creation, IT goods created the baremetal server. They gave the server an Operating System with seas of ram, lands of hard disk space, winds of devices, and a sun of cpu cycles giving life to everything... then the gods observed their creation and all was good... for a time."
+- "In the second day of the technological creation, IT goods created the monolithic applications. Those applications spawned trough all the garden of O/S edens using resources in disordered ways... and for a little time, it was good as there was plenty of resources to use and abuse.."
 - "In the third day of the technological creation, IT goods created the SYSADMIN, with the sole role of take care of the applications and the garden of O/S edens, and keep them from wasting their environments... but the SYSADMIN detected a flaw on the original IT goods monolithic design, and decided to work with their gods to find a solution... The virtualization was born, and again, for a time it was OK for all ... Just for a little while.."
 - "In the fourth day of the technological creation, IT goods and SYSADMINs decided that the virtualization needed more control... they needed orquestration and elasticity.. then... with a light that blinded all non-prepared SysAdmins and changed all prehistorical IT concepts... the modern cloud was born."
-- "In the fifth day of the technological creation, concepts like DevOps, SysOps, Cloudformation, Infrastructure as Code, and other cloud-infrastructure automation paradigms begun to rise from the very hearth of IT heavens (and IT Hells too) crouding the minds and souls of all beings in the creation.. but there was more to come and there's no rest for the wicked ..."
+- "In the fifth day of the technological creation, concepts like DevOps, SysOps, Cloudformation, Infrastructure as Code, and other cloud-infrastructure automation paradigms begun to rise from the very heart of IT heavens (and IT Hells too) crowding the minds and souls of all beings in the creation.. but there was more to come and there's no rest for the wicked ..."
 
-More to come ?. We are just begining here !. Technology keep going on and advancing... and getting more complex each day. Automation tools like "puppet", "ansible", "chef" have exceed themselves from their original desing, providing the capability to administer and orquestrate clouds like AWS, Azure, GCE and OpenStack based clouds with the same ease as they administer applications. Basicaly, those tools provide ways to automate the orquestration !.
+More to come ?. We are just beginning here !. Technology keep going on and advancing... and getting more complex each day. Automation tools like "puppet", "ansible", "chef" have exceed themselves from their original desing, providing the capability to administer and orquestrate clouds like AWS, Azure, GCE and OpenStack based clouds with the same ease as they administer applications. Basically, those tools provide ways to automate the orquestration !.
 
 Following this new paradigm where the orquestration need to be automated, Canonical introduced a tool, which they call ["JUJU"](https://www.ubuntu.com/cloud/juju), and serves as a way to deploy from simple to very complex application scenarios in a cloud oriented way.
 
-But... what's the main working unit or "recipe" in JUJU ?... Let's do a comparation here:
+But... what's the main working unit or "recipe" in JUJU ?... Let's do a basic comparision here:
 
 - Puppet: They call their recipes "Manifests".
 - Ansible: They call their recipes "Playbooks".
-- Chef: They call their recipes... gues ??.. "Recipes".
-- JUJU: Well... we are in the black-magic IT world now... As you probably infered: "CHARMS".
+- Chef: They call their recipes... guess ??.. "Recipes".
+- JUJU: Well... we are in the black-magic IT world now... As you probably inferred: "CHARMS".
 
-So, the basic recipe which describes an application in "JUJU" is called a "Charm". The charm, in it's pure technological form, is an structure with scripts and a some yaml files. This structure not only defines actions used to install, uninstall, start, stop, and in general manage the distint aspects of an application, but also sets posible actions used to relate the application to others applications installed also trough JUJU. 
+So, the basic recipe which describes an application in "JUJU" is called a "Charm". The charm, in it's pure technological form, is an structure with scripts and a some yaml files. This structure not only defines actions used to install, uninstall, start, stop, and in general manage the distinct aspects of an application, but also sets possible actions used to relate the application to others applications installed also trough JUJU. 
 
 By example: We can deploy a single individual mysql service trough a juju charm called "mysql". Then, we can add another charm for wordpress and another one for mediawiki... now... we can "relate" both the mediawiki and the wordpress to the mysql, and, "like an act of black magic" the databases needed for both app charms will be created by the mysql's charm. Moreover, we can scale out the wordpress app including more "units" which spawns to other machines in the cloud.
 
-Well.. is not black magic or any kind of magic at all. Is just years and years of "SysAdmin concepts" and "smart scripting" applied in the form of "hooks" that intercepts specific actions defined in the "JUJU" repertory of posible actions, and finally produce a result: A deployed application that can be related to others, and scaled in a "cloud" way.
+Well.. is not black magic or any kind of magic at all. Is just years and years of "SysAdmin concepts" and "smart scripting" applied in the form of "hooks" that intercepts specific actions defined in the "JUJU" repertory of possible actions, and finally produce a result: A deployed application that can be related to others, and scaled in a "cloud" way.
 
 "JUJU" can manage many cloud types... Azure, GCE, RackSpace, OpenStack private Clouds, "MAAS" (another concept from the IT lands: Metal as a Service), and ultimately: MANUAL clouds.
 
-This tutorial will, for the sake of simplicity, use a MANUAL cloud... but... what in heavens is a manual cloud ?. A manual cloud is a bunch of individual servers, with no cloud related software managing their resources, that can be also be disparate from each other in terms of hardware (and software too). So, the manual cloud is used to create a cloud where is none existent, and deploy applications trough all the servers in the cloud.
+This tutorial will, for the sake of simplicity, use a MANUAL cloud... but... what in heavens is a manual cloud ?. A manual cloud is a bunch of individual servers, with no cloud related software managing their resources, that can be also be disparate from each other in terms of hardware (and software too). So, the manual cloud is used to create a cloud where is none existent, and deploy applications through all the servers in the cloud.
 
-We'll cover from installation trough basic application deployin here. For the moment, we'll not enter into charm construction or other clouds like AWS or OpenStack. Those will be topics for part's 2 and/or 3 of our juju tutorial series.
+We'll cover from installation trough basic application deploying here. For the moment, we'll not enter into charm construction or other clouds like AWS or OpenStack. Those will be topics for part's 2 and/or 3 of our juju tutorial series.
 
 
 ## Our Environment:
