@@ -45,7 +45,7 @@ We'll cover from installation trough basic application deploying here. For the m
 
 ## Our Environment:
 
-For our tutorial, we created four servers in OpenStack. Those were installed using my unattended seeds in the following url:
+For our tutorial, we created four servers in VirtualBox. Those were installed using my unattended seeds in the following url:
 
 - [Unattended installations templates for Centos, Debian and Ubuntu](http://tigerlinux.github.io/recipes/linux/unattended/index.html)
 
