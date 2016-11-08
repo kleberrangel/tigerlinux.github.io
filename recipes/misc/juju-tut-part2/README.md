@@ -67,7 +67,7 @@ sudo apt-get -y update
 sudo apt-get -y install juju-2.0
 ```
 
-**NOTE: At the moment of writing this tutorial (late october 2016), juju-2 packages for Ubuntu 14.04 are missing from the "stable" branch, but are available on "proposed" and "devel" branches of the PPA. If you go for the "stable" branch, only juju 1.x is available for Ubuntu 14.04. For Ubuntu 16.04lts, juju-2 is fully available on the stable branch of the PPA.**
+**NOTE: At the moment of writing this tutorial (early November 2016), juju-2 packages for Ubuntu 14.04 are missing from the "stable" branch, but are available on "proposed" and "devel" branches of the PPA. If you go for the "stable" branch, only juju 1.x is available for Ubuntu 14.04. For Ubuntu 16.04lts, juju-2 is fully available on the stable branch of the PPA.**
 
 
 ## OpenStack client environment and image setup:
